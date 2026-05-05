@@ -1,0 +1,13 @@
+{
+  "repo": "selenium",
+  "feeds": [
+    {
+      "source": "https://www.selenium.dev/blog/",
+      "feed_url": "https://www.selenium.dev/index.xml",
+      "saved": 10,
+      "title": "Selenium"
+    }
+  ],
+  "post_count": 10,
+  "fetched": "2026-05-03T23:36:23Z"
+}
