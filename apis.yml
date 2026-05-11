@@ -55,6 +55,21 @@ common:
     url: https://www.selenium.dev/sponsors/
   - type: History
     url: https://www.selenium.dev/history/
+  - type: Integrations
+    url: https://www.selenium.dev/ecosystem/
+integrations:
+  - name: Firefox
+  - name: Edge
+  - name: Chrome
+  - name: Opera
+  - name: Safari
+  - name: BrowserStack
+  - name: Sauce Labs
+  - name: TestMu AI (formerly LambdaTest)
+  - name: Bright Data
+  - name: Applitools
+  - name: Thordata
+  - name: Deploys by Netlify
 maintainers:
   - FN: Selenium Project
     email: selenium-developers@googlegroups.com
