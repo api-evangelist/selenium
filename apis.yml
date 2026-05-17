@@ -21,7 +21,7 @@ apis:
         url: https://www.selenium.dev/documentation/webdriver/
       - type: API Documentation
         url: https://www.selenium.dev/selenium/docs/api/java/
-      - type: Getting Started
+      - type: GettingStarted
         url: https://www.selenium.dev/documentation/webdriver/getting_started/
   - name: Selenium Grid
     description: Selenium Grid allows you to run test cases in different machines across different platforms. It enables the execution of test scripts on remote machines by routing commands to remote web browser instances.
@@ -38,10 +38,10 @@ apis:
         url: https://www.selenium.dev/documentation/grid/
       - type: Configuration
         url: https://www.selenium.dev/documentation/grid/configuration/
-      - type: Getting Started
+      - type: GettingStarted
         url: https://www.selenium.dev/documentation/grid/getting_started/
 common:
-  - type: GitHub Organization
+  - type: GitHubOrganization
     url: https://github.com/SeleniumHQ
   - type: Blog
     url: https://www.selenium.dev/blog/
