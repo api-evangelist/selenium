@@ -2,11 +2,11 @@
   "repo": "selenium",
   "feeds": [
     {
-      "source": "https://www.selenium.dev/index.xml",
-      "feed_url": "https://www.selenium.dev/index.xml",
+      "source": "https://www.selenium.dev/blog/",
+      "feed_url": "https://www.selenium.dev/blog/",
       "title": "",
       "saved": 0,
-      "method": "feed"
+      "method": "none"
     },
     {
       "source": "https://github.com/SeleniumHQ",
@@ -17,5 +17,5 @@
     }
   ],
   "post_count": 50,
-  "fetched": "2026-06-01T23:35:02Z"
+  "fetched": "2026-06-14T20:42:17Z"
 }

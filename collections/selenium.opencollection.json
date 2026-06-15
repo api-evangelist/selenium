@@ -1,0 +1,315 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Selenium WebDriver (W3C Wire Protocol)",
+    "version": "1.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Status",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Check remote end readiness",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://localhost:4444/wd/hub/status"
+          },
+          "docs": "Check remote end readiness"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Session",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Create a new WebDriver session",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "http://localhost:4444/wd/hub/session",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create a new WebDriver session"
+        },
+        {
+          "info": {
+            "name": "Terminate a session",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "http://localhost:4444/wd/hub/session/:sessionId",
+            "params": [
+              {
+                "name": "sessionId",
+                "value": "",
+                "type": "path",
+                "description": "WebDriver session ID"
+              }
+            ]
+          },
+          "docs": "Terminate a session"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Navigation",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get the current page URL",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://localhost:4444/wd/hub/session/:sessionId/url",
+            "params": [
+              {
+                "name": "sessionId",
+                "value": "",
+                "type": "path",
+                "description": "WebDriver session ID"
+              }
+            ]
+          },
+          "docs": "Get the current page URL"
+        },
+        {
+          "info": {
+            "name": "Navigate to a URL",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "http://localhost:4444/wd/hub/session/:sessionId/url",
+            "params": [
+              {
+                "name": "sessionId",
+                "value": "",
+                "type": "path",
+                "description": "WebDriver session ID"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Navigate to a URL"
+        },
+        {
+          "info": {
+            "name": "Get page title",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://localhost:4444/wd/hub/session/:sessionId/title",
+            "params": [
+              {
+                "name": "sessionId",
+                "value": "",
+                "type": "path",
+                "description": "WebDriver session ID"
+              }
+            ]
+          },
+          "docs": "Get page title"
+        },
+        {
+          "info": {
+            "name": "Navigate back",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "http://localhost:4444/wd/hub/session/:sessionId/back",
+            "params": [
+              {
+                "name": "sessionId",
+                "value": "",
+                "type": "path",
+                "description": "WebDriver session ID"
+              }
+            ]
+          },
+          "docs": "Navigate back"
+        },
+        {
+          "info": {
+            "name": "Navigate forward",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "http://localhost:4444/wd/hub/session/:sessionId/forward",
+            "params": [
+              {
+                "name": "sessionId",
+                "value": "",
+                "type": "path",
+                "description": "WebDriver session ID"
+              }
+            ]
+          },
+          "docs": "Navigate forward"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Elements",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Find a single element",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "http://localhost:4444/wd/hub/session/:sessionId/element",
+            "params": [
+              {
+                "name": "sessionId",
+                "value": "",
+                "type": "path",
+                "description": "WebDriver session ID"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Find a single element"
+        },
+        {
+          "info": {
+            "name": "Find multiple elements",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "http://localhost:4444/wd/hub/session/:sessionId/elements",
+            "params": [
+              {
+                "name": "sessionId",
+                "value": "",
+                "type": "path",
+                "description": "WebDriver session ID"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Find multiple elements"
+        },
+        {
+          "info": {
+            "name": "Click an element",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "http://localhost:4444/wd/hub/session/:sessionId/element/:elementId/click",
+            "params": [
+              {
+                "name": "sessionId",
+                "value": "",
+                "type": "path",
+                "description": "WebDriver session ID"
+              },
+              {
+                "name": "elementId",
+                "value": "",
+                "type": "path",
+                "description": "WebDriver element reference ID"
+              }
+            ]
+          },
+          "docs": "Click an element"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Script",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Execute JavaScript synchronously",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "http://localhost:4444/wd/hub/session/:sessionId/execute/sync",
+            "params": [
+              {
+                "name": "sessionId",
+                "value": "",
+                "type": "path",
+                "description": "WebDriver session ID"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Execute JavaScript synchronously"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Cookies",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Retrieve all cookies",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://localhost:4444/wd/hub/session/:sessionId/cookie",
+            "params": [
+              {
+                "name": "sessionId",
+                "value": "",
+                "type": "path",
+                "description": "WebDriver session ID"
+              }
+            ]
+          },
+          "docs": "Retrieve all cookies"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
