@@ -41,6 +41,8 @@ apis:
       - type: GettingStarted
         url: https://www.selenium.dev/documentation/grid/getting_started/
 common:
+  - type: DomainSecurity
+    url: security/selenium-domain-security.yml
   - type: GitHubOrganization
     url: https://github.com/SeleniumHQ
   - type: Blog
