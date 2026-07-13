@@ -2,13 +2,14 @@
   "repo": "selenium",
   "feeds": [
     {
-      "source": "https://www.selenium.dev/blog/",
-      "feed_url": "",
+      "source": "https://github.com/SeleniumHQ",
+      "feed_url": "https://github.com/SeleniumHQ",
+      "title": "",
       "saved": 0,
-      "method": "agent-scrape"
+      "method": "none"
     }
   ],
   "post_count": 50,
-  "fetched": "2026-06-27T13:09:22Z",
+  "fetched": "2026-07-11T11:50:51Z",
   "agent_pulled": "2026-06-27"
 }
