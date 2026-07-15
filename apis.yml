@@ -41,6 +41,8 @@ apis:
       - type: GettingStarted
         url: https://www.selenium.dev/documentation/grid/getting_started/
 common:
+  - type: AgenticAccess
+    url: agentic-access/selenium-agentic-access.yml
   - type: DomainSecurity
     url: security/selenium-domain-security.yml
   - type: GitHubOrganization
