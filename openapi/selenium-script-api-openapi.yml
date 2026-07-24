@@ -1,0 +1,54 @@
+openapi: 3.1.0
+info:
+  title: Selenium WebDriver (W3C Wire Protocol) Cookies Script API
+  description: Selenium WebDriver implements the W3C WebDriver protocol — a platform- and language-neutral HTTP wire protocol used by out-of-process programs to remotely instruct browsers. This OpenAPI definition lists common endpoints exposed by a WebDriver remote end (e.g. a Selenium Grid node, selenium-standalone, or a browser-specific driver such as chromedriver/geckodriver). No authentication is defined by the W3C protocol itself; deployments typically front the endpoint with a reverse proxy or run on a private network.
+  version: '1.0'
+  contact:
+    name: Selenium
+    url: https://www.selenium.dev/documentation/webdriver/
+servers:
+- url: http://localhost:4444/wd/hub
+  description: Default Selenium standalone / Grid endpoint
+- url: http://localhost:9515
+  description: ChromeDriver default port
+- url: http://localhost:4444
+  description: Geckodriver / generic WebDriver default
+tags:
+- name: Script
+  description: Execute JavaScript in the page context
+paths:
+  /session/{sessionId}/execute/sync:
+    parameters:
+    - $ref: '#/components/parameters/SessionId'
+    post:
+      tags:
+      - Script
+      summary: Execute JavaScript synchronously
+      operationId: executeScriptSync
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - script
+              - args
+              properties:
+                script:
+                  type: string
+                args:
+                  type: array
+                  items: {}
+      responses:
+        '200':
+          description: Script return value
+components:
+  parameters:
+    SessionId:
+      in: path
+      name: sessionId
+      required: true
+      schema:
+        type: string
+      description: WebDriver session ID

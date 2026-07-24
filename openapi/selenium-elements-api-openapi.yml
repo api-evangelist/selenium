@@ -1,0 +1,98 @@
+openapi: 3.1.0
+info:
+  title: Selenium WebDriver (W3C Wire Protocol) Cookies Elements API
+  description: Selenium WebDriver implements the W3C WebDriver protocol — a platform- and language-neutral HTTP wire protocol used by out-of-process programs to remotely instruct browsers. This OpenAPI definition lists common endpoints exposed by a WebDriver remote end (e.g. a Selenium Grid node, selenium-standalone, or a browser-specific driver such as chromedriver/geckodriver). No authentication is defined by the W3C protocol itself; deployments typically front the endpoint with a reverse proxy or run on a private network.
+  version: '1.0'
+  contact:
+    name: Selenium
+    url: https://www.selenium.dev/documentation/webdriver/
+servers:
+- url: http://localhost:4444/wd/hub
+  description: Default Selenium standalone / Grid endpoint
+- url: http://localhost:9515
+  description: ChromeDriver default port
+- url: http://localhost:4444
+  description: Geckodriver / generic WebDriver default
+tags:
+- name: Elements
+  description: Element discovery and interaction
+paths:
+  /session/{sessionId}/element:
+    parameters:
+    - $ref: '#/components/parameters/SessionId'
+    post:
+      tags:
+      - Elements
+      summary: Find a single element
+      operationId: findElement
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Locator'
+      responses:
+        '200':
+          description: Element reference
+  /session/{sessionId}/elements:
+    parameters:
+    - $ref: '#/components/parameters/SessionId'
+    post:
+      tags:
+      - Elements
+      summary: Find multiple elements
+      operationId: findElements
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Locator'
+      responses:
+        '200':
+          description: Array of element references
+  /session/{sessionId}/element/{elementId}/click:
+    parameters:
+    - $ref: '#/components/parameters/SessionId'
+    - $ref: '#/components/parameters/ElementId'
+    post:
+      tags:
+      - Elements
+      summary: Click an element
+      operationId: clickElement
+      responses:
+        '200':
+          description: OK
+components:
+  parameters:
+    ElementId:
+      in: path
+      name: elementId
+      required: true
+      schema:
+        type: string
+      description: WebDriver element reference ID
+    SessionId:
+      in: path
+      name: sessionId
+      required: true
+      schema:
+        type: string
+      description: WebDriver session ID
+  schemas:
+    Locator:
+      type: object
+      required:
+      - using
+      - value
+      properties:
+        using:
+          type: string
+          enum:
+          - css selector
+          - link text
+          - partial link text
+          - tag name
+          - xpath
+        value:
+          type: string

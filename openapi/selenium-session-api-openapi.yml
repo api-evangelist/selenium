@@ -1,0 +1,58 @@
+openapi: 3.1.0
+info:
+  title: Selenium WebDriver (W3C Wire Protocol) Cookies Session API
+  description: Selenium WebDriver implements the W3C WebDriver protocol — a platform- and language-neutral HTTP wire protocol used by out-of-process programs to remotely instruct browsers. This OpenAPI definition lists common endpoints exposed by a WebDriver remote end (e.g. a Selenium Grid node, selenium-standalone, or a browser-specific driver such as chromedriver/geckodriver). No authentication is defined by the W3C protocol itself; deployments typically front the endpoint with a reverse proxy or run on a private network.
+  version: '1.0'
+  contact:
+    name: Selenium
+    url: https://www.selenium.dev/documentation/webdriver/
+servers:
+- url: http://localhost:4444/wd/hub
+  description: Default Selenium standalone / Grid endpoint
+- url: http://localhost:9515
+  description: ChromeDriver default port
+- url: http://localhost:4444
+  description: Geckodriver / generic WebDriver default
+tags:
+- name: Session
+  description: Session lifecycle
+paths:
+  /session:
+    post:
+      tags:
+      - Session
+      summary: Create a new WebDriver session
+      operationId: createSession
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                capabilities:
+                  type: object
+                  description: W3C capabilities request (alwaysMatch, firstMatch)
+      responses:
+        '200':
+          description: Session created
+  /session/{sessionId}:
+    parameters:
+    - $ref: '#/components/parameters/SessionId'
+    delete:
+      tags:
+      - Session
+      summary: Terminate a session
+      operationId: deleteSession
+      responses:
+        '200':
+          description: Session deleted
+components:
+  parameters:
+    SessionId:
+      in: path
+      name: sessionId
+      required: true
+      schema:
+        type: string
+      description: WebDriver session ID

@@ -1,0 +1,100 @@
+openapi: 3.1.0
+info:
+  title: Selenium WebDriver (W3C Wire Protocol) Cookies Navigation API
+  description: Selenium WebDriver implements the W3C WebDriver protocol — a platform- and language-neutral HTTP wire protocol used by out-of-process programs to remotely instruct browsers. This OpenAPI definition lists common endpoints exposed by a WebDriver remote end (e.g. a Selenium Grid node, selenium-standalone, or a browser-specific driver such as chromedriver/geckodriver). No authentication is defined by the W3C protocol itself; deployments typically front the endpoint with a reverse proxy or run on a private network.
+  version: '1.0'
+  contact:
+    name: Selenium
+    url: https://www.selenium.dev/documentation/webdriver/
+servers:
+- url: http://localhost:4444/wd/hub
+  description: Default Selenium standalone / Grid endpoint
+- url: http://localhost:9515
+  description: ChromeDriver default port
+- url: http://localhost:4444
+  description: Geckodriver / generic WebDriver default
+tags:
+- name: Navigation
+  description: Page navigation and metadata
+paths:
+  /session/{sessionId}/url:
+    parameters:
+    - $ref: '#/components/parameters/SessionId'
+    post:
+      tags:
+      - Navigation
+      summary: Navigate to a URL
+      operationId: navigateTo
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - url
+              properties:
+                url:
+                  type: string
+                  format: uri
+      responses:
+        '200':
+          description: OK
+    get:
+      tags:
+      - Navigation
+      summary: Get the current page URL
+      operationId: getCurrentUrl
+      responses:
+        '200':
+          description: Current URL
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  value:
+                    type: string
+                    format: uri
+  /session/{sessionId}/title:
+    parameters:
+    - $ref: '#/components/parameters/SessionId'
+    get:
+      tags:
+      - Navigation
+      summary: Get page title
+      operationId: getTitle
+      responses:
+        '200':
+          description: Title
+  /session/{sessionId}/back:
+    parameters:
+    - $ref: '#/components/parameters/SessionId'
+    post:
+      tags:
+      - Navigation
+      summary: Navigate back
+      operationId: navigateBack
+      responses:
+        '200':
+          description: OK
+  /session/{sessionId}/forward:
+    parameters:
+    - $ref: '#/components/parameters/SessionId'
+    post:
+      tags:
+      - Navigation
+      summary: Navigate forward
+      operationId: navigateForward
+      responses:
+        '200':
+          description: OK
+components:
+  parameters:
+    SessionId:
+      in: path
+      name: sessionId
+      required: true
+      schema:
+        type: string
+      description: WebDriver session ID
