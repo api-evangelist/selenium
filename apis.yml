@@ -1,45 +1,121 @@
 name: Selenium
 description: Selenium is a suite of tools for automating web browsers across many platforms. It provides a way to control browsers programmatically for testing web applications and automating browser-based tasks.
+accessModel:
+  pricing: freemium
+  onboarding: unknown
+  trial: false
+  try_now: false
+  public: false
+  label: Freemium
+  confidence: medium
+  source:
+  - plans
+  generated: '2026-07-22'
+  method: derived
 image: https://www.selenium.dev/images/selenium-logo.svg
 url: https://www.selenium.dev/
 created: '2024-01-01'
 modified: '2024-01-01'
 specificationVersion: '0.18'
 apis:
-  - name: Selenium WebDriver
-    description: WebDriver is a browser automation framework that accepts commands and sends them to a browser. It is implemented through a browser-specific driver that sends commands to a browser and retrieves results.
-    image: https://www.selenium.dev/images/selenium-logo.svg
-    humanURL: https://www.selenium.dev/documentation/webdriver/
-    baseURL: https://www.selenium.dev
-    tags:
-      - Automation
-      - Browsers
-      - Testing
-      - WebDriver
-    properties:
-      - type: Documentation
-        url: https://www.selenium.dev/documentation/webdriver/
-      - type: API Documentation
-        url: https://www.selenium.dev/selenium/docs/api/java/
-      - type: GettingStarted
-        url: https://www.selenium.dev/documentation/webdriver/getting_started/
-  - name: Selenium Grid
-    description: Selenium Grid allows you to run test cases in different machines across different platforms. It enables the execution of test scripts on remote machines by routing commands to remote web browser instances.
-    image: https://www.selenium.dev/images/selenium-logo.svg
-    humanURL: https://www.selenium.dev/documentation/grid/
-    baseURL: https://www.selenium.dev
-    tags:
-      - Distributed
-      - Grid
-      - Parallel Testing
-      - Testing
-    properties:
-      - type: Documentation
-        url: https://www.selenium.dev/documentation/grid/
-      - type: Configuration
-        url: https://www.selenium.dev/documentation/grid/configuration/
-      - type: GettingStarted
-        url: https://www.selenium.dev/documentation/grid/getting_started/
+- name: Selenium WebDriver
+  description: >-
+    WebDriver is a browser automation framework that accepts commands and sends them to a browser. It
+    is implemented through a browser-specific driver that sends commands to a browser and retrieves results.
+  image: https://www.selenium.dev/images/selenium-logo.svg
+  humanURL: https://www.selenium.dev/documentation/webdriver/
+  baseURL: https://www.selenium.dev
+  tags:
+  - Automation
+  - Browsers
+  - Testing
+  - WebDriver
+  properties:
+  - type: Documentation
+    url: https://www.selenium.dev/documentation/webdriver/
+  - type: API Documentation
+    url: https://www.selenium.dev/selenium/docs/api/java/
+  - type: GettingStarted
+    url: https://www.selenium.dev/documentation/webdriver/getting_started/
+- name: Selenium Grid
+  description: >-
+    Selenium Grid allows you to run test cases in different machines across different platforms. It enables
+    the execution of test scripts on remote machines by routing commands to remote web browser instances.
+  image: https://www.selenium.dev/images/selenium-logo.svg
+  humanURL: https://www.selenium.dev/documentation/grid/
+  baseURL: https://www.selenium.dev
+  tags:
+  - Distributed
+  - Grid
+  - Parallel Testing
+  - Testing
+  properties:
+  - type: Documentation
+    url: https://www.selenium.dev/documentation/grid/
+  - type: Configuration
+    url: https://www.selenium.dev/documentation/grid/configuration/
+  - type: GettingStarted
+    url: https://www.selenium.dev/documentation/grid/getting_started/
+- aid: selenium:selenium-cookies-api
+  name: Selenium Cookies API
+  description: Cookie management
+  humanURL: https://www.selenium.dev/documentation/webdriver/
+  baseURL: https://www.selenium.dev
+  tags:
+  - Cookies
+  properties:
+  - type: OpenAPI
+    url: openapi/selenium-cookies-api-openapi.yml
+- aid: selenium:selenium-elements-api
+  name: Selenium Elements API
+  description: Element discovery and interaction
+  humanURL: https://www.selenium.dev/documentation/webdriver/
+  baseURL: https://www.selenium.dev
+  tags:
+  - Elements
+  properties:
+  - type: OpenAPI
+    url: openapi/selenium-elements-api-openapi.yml
+- aid: selenium:selenium-navigation-api
+  name: Selenium Navigation API
+  description: Page navigation and metadata
+  humanURL: https://www.selenium.dev/documentation/webdriver/
+  baseURL: https://www.selenium.dev
+  tags:
+  - Navigation
+  properties:
+  - type: OpenAPI
+    url: openapi/selenium-navigation-api-openapi.yml
+- aid: selenium:selenium-script-api
+  name: Selenium Script API
+  description: Execute JavaScript in the page context
+  humanURL: https://www.selenium.dev/documentation/webdriver/
+  baseURL: https://www.selenium.dev
+  tags:
+  - Script
+  properties:
+  - type: OpenAPI
+    url: openapi/selenium-script-api-openapi.yml
+- aid: selenium:selenium-session-api
+  name: Selenium Session API
+  description: Session lifecycle
+  humanURL: https://www.selenium.dev/documentation/webdriver/
+  baseURL: https://www.selenium.dev
+  tags:
+  - Session
+  properties:
+  - type: OpenAPI
+    url: openapi/selenium-session-api-openapi.yml
+- aid: selenium:selenium-status-api
+  name: Selenium Status API
+  description: Remote end readiness
+  humanURL: https://www.selenium.dev/documentation/webdriver/
+  baseURL: https://www.selenium.dev
+  tags:
+  - Status
+  properties:
+  - type: OpenAPI
+    url: openapi/selenium-status-api-openapi.yml
 common:
   - type: AgenticAccess
     url: agentic-access/selenium-agentic-access.yml
