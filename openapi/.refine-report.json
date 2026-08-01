@@ -1,0 +1,24 @@
+{
+  "provider": "selenium",
+  "sources": [
+    "selenium-cookies-api-openapi.yml",
+    "selenium-elements-api-openapi.yml",
+    "selenium-navigation-api-openapi.yml",
+    "selenium-script-api-openapi.yml",
+    "selenium-session-api-openapi.yml",
+    "selenium-status-api-openapi.yml"
+  ],
+  "outputs": [
+    "selenium-cookies-api-openapi.yml",
+    "selenium-elements-api-openapi.yml",
+    "selenium-navigation-api-openapi.yml",
+    "selenium-script-api-openapi.yml",
+    "selenium-session-api-openapi.yml",
+    "selenium-status-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [],
+  "skipped": []
+}
