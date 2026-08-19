@@ -16,7 +16,7 @@ image: https://www.selenium.dev/images/selenium-logo.svg
 url: https://www.selenium.dev/
 created: '2024-01-01'
 modified: '2024-01-01'
-specificationVersion: '0.18'
+specificationVersion: '0.23'
 apis:
 - name: Selenium WebDriver
   description: >-
