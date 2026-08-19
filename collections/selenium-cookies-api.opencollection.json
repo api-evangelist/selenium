@@ -1,0 +1,37 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Selenium WebDriver (W3C Wire Protocol) Cookies API",
+    "version": "1.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Cookies",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Retrieve all cookies",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://localhost:4444/wd/hub/session/:sessionId/cookie",
+            "params": [
+              {
+                "name": "sessionId",
+                "value": "",
+                "type": "path",
+                "description": "WebDriver session ID"
+              }
+            ]
+          },
+          "docs": "Retrieve all cookies"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,99 @@
+{
+  "item": [
+    {
+      "id": "5829ca52-6518-491f-a80c-83d51f20a875",
+      "name": "Status",
+      "description": {
+        "content": "Remote end readiness",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "94f6279b-1fe5-4cec-92ff-26e5574934e8",
+          "name": "Check remote end readiness",
+          "request": {
+            "name": "Check remote end readiness",
+            "description": {},
+            "url": {
+              "path": [
+                "status"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "3cd117c8-de79-43ba-b15a-e638800554a5",
+              "name": "Readiness payload",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "status"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"value\": {\n    \"ready\": true,\n    \"message\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "http://localhost:4444/wd/hub",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "c31bcff6-7569-4a14-a25f-d73257ebfa55",
+    "name": "Selenium WebDriver (W3C Wire Protocol) Cookies Status API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Selenium WebDriver implements the W3C WebDriver protocol — a platform- and language-neutral HTTP wire protocol used by out-of-process programs to remotely instruct browsers. This OpenAPI definition lists common endpoints exposed by a WebDriver remote end (e.g. a Selenium Grid node, selenium-standalone, or a browser-specific driver such as chromedriver/geckodriver). No authentication is defined by the W3C protocol itself; deployments typically front the endpoint with a reverse proxy or run on a private network.\n\nContact Support:\n Name: Selenium",
+      "type": "text/plain"
+    }
+  }
+}

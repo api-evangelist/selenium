@@ -1,0 +1,41 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Selenium WebDriver (W3C Wire Protocol) Cookies Script API",
+    "version": "1.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Script",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Execute JavaScript synchronously",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "http://localhost:4444/wd/hub/session/:sessionId/execute/sync",
+            "params": [
+              {
+                "name": "sessionId",
+                "value": "",
+                "type": "path",
+                "description": "WebDriver session ID"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Execute JavaScript synchronously"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

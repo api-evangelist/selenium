@@ -1,0 +1,89 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Selenium WebDriver (W3C Wire Protocol) Cookies Elements API",
+    "version": "1.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Elements",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Find a single element",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "http://localhost:4444/wd/hub/session/:sessionId/element",
+            "params": [
+              {
+                "name": "sessionId",
+                "value": "",
+                "type": "path",
+                "description": "WebDriver session ID"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Find a single element"
+        },
+        {
+          "info": {
+            "name": "Find multiple elements",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "http://localhost:4444/wd/hub/session/:sessionId/elements",
+            "params": [
+              {
+                "name": "sessionId",
+                "value": "",
+                "type": "path",
+                "description": "WebDriver session ID"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Find multiple elements"
+        },
+        {
+          "info": {
+            "name": "Click an element",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "http://localhost:4444/wd/hub/session/:sessionId/element/:elementId/click",
+            "params": [
+              {
+                "name": "sessionId",
+                "value": "",
+                "type": "path",
+                "description": "WebDriver session ID"
+              },
+              {
+                "name": "elementId",
+                "value": "",
+                "type": "path",
+                "description": "WebDriver element reference ID"
+              }
+            ]
+          },
+          "docs": "Click an element"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

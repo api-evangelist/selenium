@@ -1,0 +1,117 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Selenium WebDriver (W3C Wire Protocol) Cookies Navigation API",
+    "version": "1.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Navigation",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get the current page URL",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://localhost:4444/wd/hub/session/:sessionId/url",
+            "params": [
+              {
+                "name": "sessionId",
+                "value": "",
+                "type": "path",
+                "description": "WebDriver session ID"
+              }
+            ]
+          },
+          "docs": "Get the current page URL"
+        },
+        {
+          "info": {
+            "name": "Navigate to a URL",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "http://localhost:4444/wd/hub/session/:sessionId/url",
+            "params": [
+              {
+                "name": "sessionId",
+                "value": "",
+                "type": "path",
+                "description": "WebDriver session ID"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Navigate to a URL"
+        },
+        {
+          "info": {
+            "name": "Get page title",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://localhost:4444/wd/hub/session/:sessionId/title",
+            "params": [
+              {
+                "name": "sessionId",
+                "value": "",
+                "type": "path",
+                "description": "WebDriver session ID"
+              }
+            ]
+          },
+          "docs": "Get page title"
+        },
+        {
+          "info": {
+            "name": "Navigate back",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "http://localhost:4444/wd/hub/session/:sessionId/back",
+            "params": [
+              {
+                "name": "sessionId",
+                "value": "",
+                "type": "path",
+                "description": "WebDriver session ID"
+              }
+            ]
+          },
+          "docs": "Navigate back"
+        },
+        {
+          "info": {
+            "name": "Navigate forward",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "http://localhost:4444/wd/hub/session/:sessionId/forward",
+            "params": [
+              {
+                "name": "sessionId",
+                "value": "",
+                "type": "path",
+                "description": "WebDriver session ID"
+              }
+            ]
+          },
+          "docs": "Navigate forward"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
