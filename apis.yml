@@ -1,5 +1,15 @@
 name: Selenium
-description: Selenium is a suite of tools for automating web browsers across many platforms. It provides a way to control browsers programmatically for testing web applications and automating browser-based tasks.
+description: >-
+  Selenium is the open-source browser automation project behind the W3C WebDriver and WebDriver BiDi
+  standards. It drives real browsers through a vendor-neutral, standardised HTTP wire protocol that
+  the browser vendors implement themselves, with official language bindings for Java, Python, C#,
+  Ruby and JavaScript, all released in lockstep. The suite covers WebDriver (the browser-control
+  protocol), Selenium Grid (distributed, parallel execution across machines and platforms),
+  Selenium Manager (a Rust CLI that resolves and downloads matching browser drivers automatically)
+  and Selenium IDE (record and playback). Selenium is self-hosted software rather than a service:
+  there is no vendor-operated API host, no account and no pricing — the remote end runs on
+  infrastructure the consumer owns, at a documented default of http://localhost:4444, under
+  Apache-2.0 and the stewardship of the Software Freedom Conservancy.
 accessModel:
   pricing: freemium
   onboarding: unknown
@@ -15,7 +25,7 @@ accessModel:
 image: https://www.selenium.dev/images/selenium-logo.svg
 url: https://www.selenium.dev/
 created: '2024-01-01'
-modified: '2024-01-01'
+modified: '2026-08-26'
 specificationVersion: '0.23'
 apis:
 - name: Selenium WebDriver
@@ -24,7 +34,7 @@ apis:
     is implemented through a browser-specific driver that sends commands to a browser and retrieves results.
   image: https://www.selenium.dev/images/selenium-logo.svg
   humanURL: https://www.selenium.dev/documentation/webdriver/
-  baseURL: https://www.selenium.dev
+  baseURL: http://localhost:4444
   tags:
   - Automation
   - Browsers
@@ -33,8 +43,10 @@ apis:
   properties:
   - type: Documentation
     url: https://www.selenium.dev/documentation/webdriver/
-  - type: API Documentation
+  - type: APIReference
     url: https://www.selenium.dev/selenium/docs/api/java/
+  - type: EventCatalog
+    url: asyncapi/selenium-bidi-events.yml
   - type: GettingStarted
     url: https://www.selenium.dev/documentation/webdriver/getting_started/
 - name: Selenium Grid
@@ -43,7 +55,7 @@ apis:
     the execution of test scripts on remote machines by routing commands to remote web browser instances.
   image: https://www.selenium.dev/images/selenium-logo.svg
   humanURL: https://www.selenium.dev/documentation/grid/
-  baseURL: https://www.selenium.dev
+  baseURL: http://localhost:4444
   tags:
   - Distributed
   - Grid
@@ -54,68 +66,84 @@ apis:
     url: https://www.selenium.dev/documentation/grid/
   - type: Configuration
     url: https://www.selenium.dev/documentation/grid/configuration/
+  - type: GraphQL
+    url: graphql/selenium-grid.graphql
+  - type: APIReference
+    url: https://www.selenium.dev/documentation/grid/advanced_features/endpoints/
   - type: GettingStarted
     url: https://www.selenium.dev/documentation/grid/getting_started/
 - aid: selenium:selenium-cookies-api
   name: Selenium Cookies API
   description: Cookie management
   humanURL: https://www.selenium.dev/documentation/webdriver/
-  baseURL: https://www.selenium.dev
+  baseURL: http://localhost:4444
   tags:
   - Cookies
   properties:
   - type: OpenAPI
     url: openapi/selenium-cookies-api-openapi.yml
+  - type: Overlay
+    url: overlays/selenium-cookies-api-overlay.yaml
 - aid: selenium:selenium-elements-api
   name: Selenium Elements API
   description: Element discovery and interaction
   humanURL: https://www.selenium.dev/documentation/webdriver/
-  baseURL: https://www.selenium.dev
+  baseURL: http://localhost:4444
   tags:
   - Elements
   properties:
   - type: OpenAPI
     url: openapi/selenium-elements-api-openapi.yml
+  - type: Overlay
+    url: overlays/selenium-elements-api-overlay.yaml
 - aid: selenium:selenium-navigation-api
   name: Selenium Navigation API
   description: Page navigation and metadata
   humanURL: https://www.selenium.dev/documentation/webdriver/
-  baseURL: https://www.selenium.dev
+  baseURL: http://localhost:4444
   tags:
   - Navigation
   properties:
   - type: OpenAPI
     url: openapi/selenium-navigation-api-openapi.yml
+  - type: Overlay
+    url: overlays/selenium-navigation-api-overlay.yaml
 - aid: selenium:selenium-script-api
   name: Selenium Script API
   description: Execute JavaScript in the page context
   humanURL: https://www.selenium.dev/documentation/webdriver/
-  baseURL: https://www.selenium.dev
+  baseURL: http://localhost:4444
   tags:
   - Script
   properties:
   - type: OpenAPI
     url: openapi/selenium-script-api-openapi.yml
+  - type: Overlay
+    url: overlays/selenium-script-api-overlay.yaml
 - aid: selenium:selenium-session-api
   name: Selenium Session API
   description: Session lifecycle
   humanURL: https://www.selenium.dev/documentation/webdriver/
-  baseURL: https://www.selenium.dev
+  baseURL: http://localhost:4444
   tags:
   - Session
   properties:
   - type: OpenAPI
     url: openapi/selenium-session-api-openapi.yml
+  - type: Overlay
+    url: overlays/selenium-session-api-overlay.yaml
 - aid: selenium:selenium-status-api
   name: Selenium Status API
   description: Remote end readiness
   humanURL: https://www.selenium.dev/documentation/webdriver/
-  baseURL: https://www.selenium.dev
+  baseURL: http://localhost:4444
   tags:
   - Status
   properties:
   - type: OpenAPI
     url: openapi/selenium-status-api-openapi.yml
+  - type: Overlay
+    url: overlays/selenium-status-api-overlay.yaml
 common:
   - type: AgenticAccess
     url: agentic-access/selenium-agentic-access.yml
@@ -137,6 +165,58 @@ common:
     url: https://www.selenium.dev/history/
   - type: Integrations
     url: https://www.selenium.dev/ecosystem/
+  - type: DeveloperPortal
+    url: https://www.selenium.dev/documentation/
+  - type: Documentation
+    url: https://www.selenium.dev/documentation/
+  - type: APIReference
+    url: https://www.selenium.dev/selenium/docs/api/java/
+  - type: GettingStarted
+    url: https://www.selenium.dev/documentation/webdriver/getting_started/
+  - type: LLMsTxt
+    url: llms/selenium-llms.txt
+  - type: Packages
+    url: packages/selenium-packages.yml
+  - type: SDKs
+    url: packages/selenium-packages.yml
+  - type: CLI
+    url: cli/selenium-cli.yml
+  - type: GraphQL
+    url: graphql/selenium-grid.graphql
+  - type: Authentication
+    url: authentication/selenium-authentication.yml
+  - type: Conventions
+    url: conventions/selenium-conventions.yml
+  - type: ErrorCatalog
+    url: errors/selenium-problem-types.yml
+  - type: DataModel
+    url: data-model/selenium-data-model.yml
+  - type: Conformance
+    url: conformance/selenium-conformance.yml
+  - type: Lifecycle
+    url: lifecycle/selenium-lifecycle.yml
+  - type: Deprecation
+    url: lifecycle/selenium-lifecycle.yml
+  - type: ChangeLog
+    url: changelog/selenium-changelog.yml
+  - type: ToolCrosswalk
+    url: mcp/selenium-tool-crosswalk.yml
+  - type: AgentSkill
+    url: skills/_index.yml
+  - type: EventCatalog
+    url: asyncapi/selenium-bidi-events.yml
+  - type: WellKnownProbe
+    url: well-known/selenium-well-known.yml
+  - type: Plans
+    url: plans/selenium-plans-pricing.yml
+  - type: RateLimits
+    url: rate-limits/selenium-rate-limits.yml
+  - type: Releases
+    url: https://github.com/SeleniumHQ/selenium/releases
+  - type: Governance
+    url: https://www.selenium.dev/project/governance/
+  - type: License
+    url: https://www.selenium.dev/documentation/about/copyright/
 integrations:
   - name: Firefox
   - name: Edge
@@ -168,3 +248,21 @@ tags_raw:
   - Quality Assurance
   - Testing
   - WebDriver
+
+x-base-url-note: >-
+  apis.yml previously carried baseURL https://www.selenium.dev on every API entry. That is the
+  documentation host, not an API host: https://www.selenium.dev/status and
+  https://www.selenium.dev/graphql both returned 404 with the site's Hugo 404 HTML on 2026-08-26,
+  and repair-api-bases.py returns the verdict `no-usable-base` for this provider. Selenium is
+  self-hosted software — the WebDriver remote end and Selenium Grid run on infrastructure the
+  consumer owns — and the project documents the default base as http://localhost:4444 ("Default URL
+  for all the above modes is http://localhost:4444",
+  https://www.selenium.dev/documentation/grid/advanced_features/endpoints/). Every baseURL has been
+  set to that documented default, which also matches the servers[] blocks already present in
+  openapi/. A localhost base here is the correct measurement, not a placeholder.
+
+x-enrichment:
+  date: '2026-08-26'
+  status: enriched
+  artifacts_added: 26
+  pass: local-v1

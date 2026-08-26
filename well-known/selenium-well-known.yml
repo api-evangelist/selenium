@@ -1,0 +1,49 @@
+generated: '2026-08-26'
+method: probed
+source: Direct HTTP GETs against www.selenium.dev on 2026-08-26 with a browser User-Agent
+provider: Selenium
+providerId: selenium
+description: >-
+  Well-known document probe for the only vendor-operated host in this profile. Selenium is a
+  self-hosted, open-source browser-automation project: www.selenium.dev serves documentation and
+  downloads, and there is no vendor-operated API host to probe. Every /.well-known/ path returned
+  404 with the site's Hugo 404 HTML body, so NO WellKnown or SecurityTxt pointer is emitted —
+  this file records a measured absence, not a served surface.
+hosts:
+  - host: www.selenium.dev
+    documents:
+      - path: /.well-known/security.txt
+        status: 404
+        file: null
+      - path: /.well-known/openid-configuration
+        status: 404
+        file: null
+      - path: /.well-known/oauth-authorization-server
+        status: 404
+        file: null
+      - path: /.well-known/api-catalog
+        status: 404
+        file: null
+      - path: /.well-known/ai-plugin.json
+        status: 404
+        file: null
+      - path: /.well-known/agent-card.json
+        status: 404
+        file: null
+      - path: /.well-known/agent.json
+        status: 404
+        file: null
+notes:
+  - >-
+    All seven 404 responses returned the selenium.dev Hugo 404 page (an HTML body beginning
+    `<!doctype html><html itemscope itemtype=http://schema.org/WebPage`), so none of them is a
+    soft-200 false positive.
+  - >-
+    One non-well-known document IS served: https://www.selenium.dev/llms.txt returns 200 with a
+    real, hand-curated llms.txt (19,498 bytes) including explicit code-generation guidance for
+    tools. Saved verbatim at llms/selenium-llms.txt.
+  - >-
+    There is no Selenium-operated API endpoint. WebDriver and Grid run on the consumer's own
+    machine or cluster (default http://localhost:4444), so /.well-known/ discovery on a vendor
+    host is structurally not applicable to this provider — a different fact from a provider that
+    runs a host and declines to publish the documents.

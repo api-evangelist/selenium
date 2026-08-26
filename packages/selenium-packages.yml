@@ -1,0 +1,138 @@
+generated: '2026-08-26'
+method: searched
+source: >-
+  Public package-registry metadata endpoints (registry.npmjs.org, pypi.org/pypi/*/json,
+  rubygems.org/api/v1/gems/*.json, api.nuget.org registration index,
+  repo1.maven.org maven-metadata.xml, proxy.golang.org, hub.docker.com/v2) queried
+  2026-08-26, cross-checked against https://www.selenium.dev/downloads/ and
+  https://github.com/SeleniumHQ/selenium
+provider: Selenium
+providerId: selenium
+description: >-
+  First-party Selenium client bindings and distribution artifacts. Selenium publishes official
+  language bindings for Java, Python, .NET, Ruby and JavaScript from the SeleniumHQ/selenium
+  monorepo, plus first-party Docker images for Selenium Grid and an npm CLI runner for
+  Selenium IDE. All of the core bindings ship in lockstep on the same version number
+  (4.47.0 on 2026-08-10), which is the project's stated release convention.
+notes:
+  - >-
+    Version lockstep is real and verifiable: selenium-webdriver (npm), selenium (PyPI),
+    selenium-webdriver (RubyGems), Selenium.WebDriver + Selenium.Support (NuGet) and
+    org.seleniumhq.selenium:selenium-java (Maven Central) all read 4.47.0, all published
+    2026-08-10 within eight minutes of one another.
+  - >-
+    search.maven.org's solrsearch index reported a stale latestVersion of 4.33.0; the
+    authoritative repo1.maven.org maven-metadata.xml reads 4.47.0 (lastUpdated 20260810180956).
+    Version below is taken from maven-metadata.xml.
+  - >-
+    selenium-side-runner is the Selenium IDE CLI, published from SeleniumHQ/selenium-ide,
+    a separate repo on a separate cadence. Its last release predates the current WebDriver
+    bindings by more than 20 months.
+  - >-
+    Selenium Manager is a first-party Rust CLI but is NOT published to crates.io
+    (crates.io/api/v1/crates/selenium-manager returns "crate does not exist"). It is shipped
+    inside every binding release and snapshotted at SeleniumHQ/selenium_manager_artifacts.
+packages:
+  - name: selenium-webdriver
+    registry: npm
+    url: https://www.npmjs.com/package/selenium-webdriver
+    language: JavaScript
+    official: true
+    version: 4.47.0
+    published: '2026-08-10'
+    repository: https://github.com/SeleniumHQ/selenium
+    note: The official WebDriver JavaScript bindings from the Selenium project.
+  - name: selenium
+    registry: pypi
+    url: https://pypi.org/project/selenium/
+    language: Python
+    official: true
+    version: 4.47.0
+    published: '2026-08-10'
+    license: Apache-2.0
+    repository: https://github.com/SeleniumHQ/selenium
+    note: Official Python bindings for Selenium WebDriver.
+  - name: selenium-webdriver
+    registry: rubygems
+    url: https://rubygems.org/gems/selenium-webdriver
+    language: Ruby
+    official: true
+    version: 4.47.0
+    published: '2026-08-10'
+    repository: https://github.com/SeleniumHQ/selenium
+  - name: Selenium.WebDriver
+    registry: nuget
+    url: https://www.nuget.org/packages/Selenium.WebDriver
+    language: C#/.NET
+    official: true
+    version: 4.47.0
+    published: '2026-08-10'
+    repository: https://github.com/SeleniumHQ/selenium
+  - name: Selenium.Support
+    registry: nuget
+    url: https://www.nuget.org/packages/Selenium.Support
+    language: C#/.NET
+    official: true
+    version: 4.47.0
+    published: '2026-08-10'
+    note: .NET support classes (waits, expected conditions, page factory, Select).
+  - name: org.seleniumhq.selenium:selenium-java
+    registry: maven
+    url: https://central.sonatype.com/artifact/org.seleniumhq.selenium/selenium-java
+    language: Java
+    official: true
+    version: 4.47.0
+    published: '2026-08-10'
+    source: https://repo1.maven.org/maven2/org/seleniumhq/selenium/selenium-java/maven-metadata.xml
+  - name: org.seleniumhq.selenium:selenium-remote-driver
+    registry: maven
+    url: https://central.sonatype.com/artifact/org.seleniumhq.selenium/selenium-remote-driver
+    language: Java
+    official: true
+    version: 4.47.0
+    published: '2026-08-10'
+    note: The remote-end HTTP transport used against a Grid or a driver process.
+  - name: selenium-side-runner
+    registry: npm
+    url: https://www.npmjs.com/package/selenium-side-runner
+    language: JavaScript
+    official: true
+    version: 4.0.13
+    published: '2024-11-22'
+    repository: https://github.com/SeleniumHQ/selenium-ide
+    note: >-
+      Selenium IDE command-line runner. Last published 2024-11-22 — more than 20 months behind
+      the WebDriver bindings, a currency gap worth flagging to consumers.
+  - name: github.com/SeleniumHQ/selenium
+    registry: go
+    url: https://pkg.go.dev/github.com/SeleniumHQ/selenium
+    language: Go
+    official: true
+    version: v0.0.0-20260105163807-6e3814496925
+    published: '2026-01-05'
+    note: >-
+      Pseudo-version only — the monorepo carries a go/ directory but the Selenium project
+      publishes no tagged Go binding. proxy.golang.org resolves the trunk commit, not a release.
+  - name: selenium/standalone-chrome
+    registry: docker
+    url: https://hub.docker.com/r/selenium/standalone-chrome
+    language: container
+    official: true
+    version: null
+    published: '2026-08-25'
+    note: >-
+      First-party Grid container image from SeleniumHQ/docker-selenium. version is null because
+      the tag stream is a rolling set (latest, beta, and dated browser-version tags) rather than
+      one resolvable "latest version" — the most recently updated tag on 2026-08-26 was `beta`,
+      pushed 2026-08-25. A consumer pinning `:latest` cannot tell what they are getting either.
+  - name: selenium-server.jar
+    registry: cdn
+    url: https://github.com/SeleniumHQ/selenium/releases/tag/selenium-4.47.0
+    language: Java
+    official: true
+    version: 4.47.0
+    published: '2026-08-10'
+    note: >-
+      The Grid/standalone server is distributed as a GitHub release asset, not through a package
+      registry. Version read from the release tag. Selenium Manager will fetch it on demand with
+      `selenium-manager --grid`.

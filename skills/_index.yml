@@ -1,0 +1,36 @@
+generated: '2026-08-26'
+method: generated
+provider: Selenium
+providerId: selenium
+description: >-
+  Packaged Agent Skills for Selenium. Every operationId referenced below was verified against the
+  OpenAPI documents in openapi/ before the skill was written; every GraphQL field was verified
+  against graphql/selenium-grid.graphql, harvested verbatim from the Selenium monorepo.
+skills:
+  - file: selenium-AGENTS.md
+    name: Selenium monorepo AGENTS.md
+    method: searched
+    source: https://github.com/SeleniumHQ/selenium/blob/trunk/AGENTS.md
+    description: >-
+      Provider-published agent guidance, saved verbatim. Scoped to working IN the Selenium monorepo
+      (Bazel toolchain, repo layout, deprecation policy, high-risk areas), not to calling the API —
+      but it is the project's own words to agents and it states the deprecation policy this profile
+      cites. Fetched 2026-08-26.
+  - file: selenium-drive-a-browser-session.md
+    name: Drive a browser session
+    method: generated
+    operations: [createSession, navigateTo, findElement, clickElement, getCurrentUrl, deleteSession]
+  - file: selenium-read-page-state.md
+    name: Read page state
+    method: generated
+    operations: [createSession, navigateTo, getCurrentUrl, getTitle, findElements, getCookies, deleteSession]
+  - file: selenium-check-grid-capacity.md
+    name: Check Grid capacity
+    method: generated
+    operations: [getStatus]
+    graphql: [GridQuery.grid, GridQuery.nodesInfo, GridQuery.session]
+note: >-
+  The provider also publishes a curated llms.txt (llms/selenium-llms.txt) whose "Notes for tools
+  generating Selenium code from this documentation" section is, in effect, a provider-authored skill
+  for code generators. Its rules — use Selenium Manager, prefer explicit waits, use BiDi not CDP,
+  use Options not Desired Capabilities — are carried into the generated skills above.

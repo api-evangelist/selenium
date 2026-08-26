@@ -1,0 +1,129 @@
+generated: '2026-08-26'
+method: derived
+source: >-
+  openapi/_original/selenium-openapi.yml ($ref graph, path parameters and id-reference fields) and
+  graphql/selenium-grid.graphql (verbatim Grid SDL). Entity descriptions cross-checked against
+  https://www.w3.org/TR/webdriver2/ and
+  https://www.selenium.dev/documentation/grid/advanced_features/graphql_support/
+provider: Selenium
+providerId: selenium
+description: >-
+  Entity graph for Selenium's two surfaces. The WebDriver side is a shallow, strictly hierarchical
+  model — everything hangs off a Session, and the only two identifiers in the protocol are sessionId
+  and an opaque element reference. The Grid side is a separate fleet model, related to the WebDriver
+  model only through Session.
+entities:
+  - name: Session
+    surface: [webdriver, grid-graphql]
+    id_field: sessionId
+    id_form: Opaque string minted by the remote end at POST /session. No documented prefix or format.
+    created_by: createSession
+    destroyed_by: deleteSession
+    description: >-
+      A live browser under automation. Root of the entire WebDriver path space — every operation
+      except getStatus is addressed as /session/{sessionId}/...
+    fields_rest:
+      - {name: capabilities, type: object, note: 'W3C capabilities request — alwaysMatch / firstMatch.'}
+    fields_graphql:
+      - {name: id, type: 'String!'}
+      - {name: capabilities, type: 'String!'}
+      - {name: startTime, type: 'String!'}
+      - {name: uri, type: 'Uri!'}
+      - {name: nodeId, type: 'String!'}
+      - {name: nodeUri, type: 'Uri!'}
+      - {name: sessionDurationMillis, type: 'String!'}
+      - {name: slot, type: Slot}
+  - name: BrowsingContext
+    surface: [webdriver]
+    id_field: null
+    description: >-
+      The window/tab the session is currently driving. Implicit in the captured surface — it is what
+      navigateTo, getCurrentUrl, getTitle, navigateBack/Forward and getCookies act on. It has no id of
+      its own in the operations captured here; WebDriver Level 2 addresses it through window handles
+      and WebDriver BiDi gives it an explicit context id.
+  - name: Element
+    surface: [webdriver]
+    id_field: elementId
+    id_form: >-
+      Opaque element reference. In the W3C JSON representation it is the value of the
+      element-6066-11e4-a52e-4f735466cecf key. Not a selector, and not stable across DOM changes.
+    created_by: [findElement, findElements]
+    description: A handle to one DOM node inside the session's current browsing context.
+    lifetime: >-
+      Valid only while the node stays attached to the DOM. Reuse after detachment returns
+      `stale element reference`.
+  - name: Locator
+    surface: [webdriver]
+    schema_ref: '#/components/schemas/Locator'
+    description: The query used to find an element. A value object, not a stored entity.
+    fields:
+      - {name: using, type: string, required: true, note: 'W3C locator strategy — css selector, xpath, tag name, link text, partial link text.'}
+      - {name: value, type: string, required: true}
+  - name: Cookie
+    surface: [webdriver]
+    description: A cookie associated with the current browsing context's active document.
+    scoped_to: BrowsingContext
+    note: >-
+      Only the read side (getCookies) is captured in openapi/. The W3C protocol also defines add,
+      get-by-name and delete operations that are not in this repo's captured surface.
+  - name: Script
+    surface: [webdriver]
+    description: >-
+      A caller-supplied JavaScript body plus an args array, executed in the page context. A request
+      payload, not a stored entity — nothing persists it and there is no script id to reference later.
+  - name: Grid
+    surface: [grid-graphql]
+    description: The whole fleet, as one singleton object.
+    fields:
+      - {name: uri, type: 'Uri!'}
+      - {name: totalSlots, type: 'Int!'}
+      - {name: nodeCount, type: 'Int!'}
+      - {name: maxSession, type: 'Int!'}
+      - {name: sessionCount, type: 'Int!'}
+      - {name: version, type: 'String!'}
+      - {name: sessionQueueSize, type: 'Int!'}
+  - name: Node
+    surface: [grid-graphql]
+    id_field: id
+    id_form: 'ID! — the Node id used in the Grid admin paths /se/grid/distributor/node/<node-id>.'
+    fields:
+      - {name: uri, type: 'Uri!'}
+      - {name: status, type: 'Status!', note: 'enum UP | DRAINING | DOWN'}
+      - {name: maxSession, type: 'Int!'}
+      - {name: slotCount, type: 'Int!'}
+      - {name: sessionCount, type: 'Int!'}
+      - {name: stereotypes, type: 'String!'}
+      - {name: version, type: 'String!'}
+      - {name: osInfo, type: OsInfo}
+  - name: Slot
+    surface: [grid-graphql]
+    id_field: id
+    fields:
+      - {name: stereotype, type: 'String!'}
+      - {name: lastStarted, type: 'String!'}
+    description: One unit of session capacity on a Node.
+  - name: OsInfo
+    surface: [grid-graphql]
+    fields:
+      - {name: arch, type: 'String!'}
+      - {name: name, type: 'String!'}
+      - {name: version, type: 'String!'}
+    description: Value object describing a Node's host operating system.
+relationships:
+  - {from: Session, to: BrowsingContext, type: has_many, via: implicit, note: 'The session drives one context at a time; window handles select among them.'}
+  - {from: BrowsingContext, to: Element, type: has_many, via: findElement/findElements}
+  - {from: BrowsingContext, to: Cookie, type: has_many, via: getCookies}
+  - {from: Element, to: Session, type: belongs_to, via: 'path /session/{sessionId}/element/{elementId}'}
+  - {from: Grid, to: Node, type: has_many, via: nodesInfo.nodes}
+  - {from: Node, to: Slot, type: has_many, via: slotCount}
+  - {from: Node, to: Session, type: has_many, via: sessions}
+  - {from: Node, to: OsInfo, type: has_one, via: osInfo}
+  - {from: Session, to: Slot, type: has_one, via: slot}
+  - {from: Session, to: Node, type: belongs_to, via: nodeId}
+id_prefixes: []
+id_prefixes_note: >-
+  None. Neither sessionId nor the element reference carries a typed prefix, so an identifier read out
+  of one field is not self-describing — an agent cannot tell a session id from an element reference
+  by looking at it, only by remembering where it came from.
+render: null
+render_note: No subway/ diagram exists for this provider yet.

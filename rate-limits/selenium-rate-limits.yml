@@ -3,97 +3,75 @@ specificationVersion: '0.1'
 schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main/schema/api-commons.yml#/$defs/RateLimits
 provider: Selenium
 providerId: selenium
+generated: '2026-08-26'
 created: '2026-05-04'
-# Provenance stamped 2026-08-11: this artifact was written by the API Evangelist
-# bulk sweep dated 2026-05-04, not harvested from the provider. See roadmap#35.
-method: generated
-modified: '2026-05-04'
-tags:
-  - Automation
-  - Browsers
-  - End-To-End Testing
-  - Quality Assurance
-  - Testing
-  - WebDriver
-  - Rate Limiting
-  - Quotas
-  - Throttling
-description: Machine-readable rate limit definitions for the Selenium API surface. Captures per-tier quotas,
-  burst behavior, response signaling, and recovery semantics. Defaults are scaffold values to be replaced
-  with published provider limits.
+modified: '2026-08-26'
+method: searched
+source: >-
+  https://www.selenium.dev/documentation/grid/configuration/cli_options/ ,
+  https://www.selenium.dev/documentation/grid/advanced_features/endpoints/ , and
+  https://www.w3.org/TR/webdriver2/ — read 2026-08-26
+description: >-
+  Selenium publishes no rate limits, and cannot: there is no vendor-operated endpoint to throttle.
+  The W3C WebDriver protocol defines no rate limiting, no quota and no 429 status, and a Selenium
+  Grid runs on hardware the consumer owns. What exists instead is CAPACITY, configured by the
+  operator — a fixed pool of session slots plus a queue with a timeout. Those are recorded below as
+  concurrency controls, deliberately NOT as rate limits, because they are the operator's settings
+  rather than the provider's policy.
+limit_count: 0
+limits: []
 headers:
-  limit: X-RateLimit-Limit
-  remaining: X-RateLimit-Remaining
-  reset: X-RateLimit-Reset
-  retryAfter: Retry-After
-  policy: RateLimit-Policy
-responseCodes:
-  throttled: 429
-  quotaExceeded: 429
-  serviceUnavailable: 503
-limits:
-  - tier: free
-    name: Free Tier Default
-    scope: api-key
-    metric: requests_per_minute
-    limit: 10
-    burst: 20
-    timeFrame: minute
-    applies:
-      - Selenium WebDriver
-      - Selenium Grid
-  - tier: free
-    name: Free Tier Monthly Quota
-    scope: api-key
-    metric: requests_per_month
-    limit: 1000
-    timeFrame: month
-    applies:
-      - Selenium WebDriver
-      - Selenium Grid
-  - tier: professional
-    name: Professional Tier Default
-    scope: api-key
-    metric: requests_per_minute
-    limit: 100
-    burst: 200
-    timeFrame: minute
-    applies:
-      - Selenium WebDriver
-      - Selenium Grid
-  - tier: professional
-    name: Professional Tier Monthly Quota
-    scope: api-key
-    metric: requests_per_month
-    limit: 100000
-    timeFrame: month
-    applies:
-      - Selenium WebDriver
-      - Selenium Grid
-  - tier: enterprise
-    name: Enterprise Negotiated Limit
-    scope: contract
-    metric: requests_per_minute
-    limit: 1000
-    burst: 5000
-    timeFrame: minute
-    applies:
-      - Selenium WebDriver
-      - Selenium Grid
-policies:
-  - name: Backoff Strategy
-    description: Clients should implement exponential backoff with jitter, honoring the Retry-After header
-      when present.
-  - name: Burst Handling
-    description: Short bursts above the steady-state limit are tolerated up to the documented burst ceiling
-      before throttling engages.
-  - name: Quota Reset
-    description: Monthly quotas reset at the start of each calendar month in UTC. Per-minute and per-second
-      windows reset on a sliding-window basis.
-  - name: Fair Use
-    description: Even on uncapped enterprise tiers, sustained usage that materially impacts shared infrastructure
-      may be subject to fair-use throttling.
-maintainers:
-  - FN: Selenium Project
-    email: selenium-developers@googlegroups.com
-    url: https://www.selenium.dev/project/
+  limit: null
+  remaining: null
+  reset: null
+  retryAfter: null
+  policy: null
+headers_note: >-
+  No rate-limit response headers of any kind. An agent gets no runtime throttling signal from this
+  API — not a header, not a status code. This is the honest and useful finding: an agent that expects
+  X-RateLimit-* or RateLimit-* here will find nothing to read.
+status_on_exhaustion: null
+status_on_exhaustion_note: >-
+  There is no exhaustion status. When capacity is unavailable the new-session request QUEUES. It
+  fails only when it exceeds --session-request-timeout, and it fails as a WebDriver error
+  (`session not created`, HTTP 500), not as a 429.
+concurrency_controls:
+  - name: max sessions per Node
+    flag: --max-sessions
+    scope: per-node
+    detail: >-
+      The number of concurrent sessions a Node will run. Exposed on the Grid GraphQL surface as
+      Node.maxSession and Grid.maxSession, which is how an agent should check headroom before
+      requesting a session.
+  - name: session inactivity timeout
+    flag: --session-timeout
+    default_seconds: 300
+    scope: per-session
+    detail: The Node kills a session with no activity for this many seconds and releases the slot.
+  - name: session request queue timeout
+    flag: --session-request-timeout
+    default_seconds: 300
+    scope: per-request
+    detail: A queued new-session request that waits longer than this times out.
+  - name: Node health check interval
+    flag: --healthcheck-interval
+    default_seconds: 120
+    scope: per-node
+  - name: listener thread pool
+    flag: --max-threads
+    scope: per-server
+    detail: 'Maximum listener threads; default is (available processors) * 3.'
+  - name: new-session thread pool
+    flag: --newsession-threadpool-size
+    default: 24
+    scope: per-distributor
+    detail: 'Fixed-size pool the Distributor uses to create sessions; default is processors * 3.'
+agent_guidance: >-
+  Do not poll for capacity and do not implement exponential backoff against a 429 that will never
+  arrive. Query the Grid GraphQL surface — { grid { maxSession sessionCount sessionQueueSize } } —
+  before requesting a session, and treat maxSession minus sessionCount as your real headroom. See
+  skills/selenium-check-grid-capacity.md.
+note: >-
+  This file previously carried a fabricated scaffold from the 2026-05-04 bulk sweep — X-RateLimit-*
+  headers, a RateLimit-Policy header and tiered quotas, none of which Selenium emits or documents.
+  See roadmap#35. Replaced with the measured zero.

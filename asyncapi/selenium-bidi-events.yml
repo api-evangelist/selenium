@@ -1,0 +1,91 @@
+generated: '2026-08-26'
+method: searched
+source: >-
+  https://www.selenium.dev/documentation/webdriver/bidi/w3c/ and its five module pages
+  (browsing_context, input, log, network, script), https://www.selenium.dev/llms.txt, and the
+  vendored machine-readable schema at
+  https://github.com/SeleniumHQ/selenium/blob/trunk/common/bidi/webdriver-bidi-1140.cddl —
+  all read 2026-08-26
+provider: Selenium
+providerId: selenium
+type: event-catalog
+transport: websocket
+protocol: WebDriver BiDi (W3C)
+description: >-
+  Selenium's event surface. It is NOT webhooks and it is NOT an AsyncAPI document: WebDriver BiDi is
+  a bidirectional WebSocket protocol, the browser pushes events to the client over the same socket
+  the client sends commands on, and nothing is delivered to a caller-hosted HTTP endpoint. This file
+  therefore records the documented event catalog rather than asserting a spec the project does not
+  publish. No AsyncAPI or Webhooks pointer is emitted in apis.yml, because neither would be true.
+machine_readable_schema:
+  format: CDDL
+  file: common/bidi/webdriver-bidi-1140.cddl
+  url: https://github.com/SeleniumHQ/selenium/blob/trunk/common/bidi/webdriver-bidi-1140.cddl
+  note: >-
+    The BiDi wire types ARE machine-readable, just not in an API-description format this pipeline
+    scores. Selenium vendors the W3C CDDL into the monorepo and generates binding types from it —
+    changelog 4.46.0/4.47.0: "Add binding-neutral BiDi schema with cddl2ts-gated fidelity",
+    "merge vendor cddl files into shared BiDi schema", "link generated BiDi elements to their spec
+    definitions". A companion webextension-install-extensions.cddl sits beside it.
+  ownership: >-
+    The CDDL is the W3C WebDriver BiDi schema, vendored by Selenium — it is not saved into this repo
+    verbatim because Selenium is a co-author and implementer of it, not its publisher.
+status: >-
+  Current and supported. llms.txt: "WebDriver BiDi is the supported route for events, network
+  interception, and console log access. The Chrome DevTools Protocol integration is legacy."
+modules:
+  - module: browsingContext
+    docs: https://www.selenium.dev/documentation/webdriver/bidi/w3c/browsing_context/
+    events:
+      - {name: Browsing Context Created}
+      - {name: Dom Content Loaded}
+      - {name: Browsing Context Loaded}
+      - {name: Navigation Started}
+      - {name: Fragment Navigated}
+      - {name: User Prompt Opened}
+      - {name: User Prompt Closed}
+      - {name: Browsing Context Destroyed}
+    commands_note: >-
+      Also carries commands — open window/tab, navigate (optionally with a readiness state), get the
+      context tree, close, activate, reload, handle user prompt, capture screenshot (page, viewport,
+      element), set viewport, print page, navigate back/forward, traverse history.
+  - module: network
+    docs: https://www.selenium.dev/documentation/webdriver/bidi/w3c/network/
+    events:
+      - {name: Before Request Sent}
+      - {name: Response Started}
+      - {name: Response Completed}
+      - {name: Auth Required}
+    commands_note: >-
+      Add/remove network intercept; continue a request blocked at the authRequired phase with or
+      without credentials; cancel such a request; fail a request. This is the interception surface —
+      the reason BiDi replaced CDP for this job.
+  - module: log
+    docs: https://www.selenium.dev/documentation/webdriver/bidi/w3c/log/
+    events:
+      - {name: Console log entry added, note: 'Surfaced in the bindings as onConsoleEntry / ConsoleLogEntry.'}
+      - {name: JavaScript exception}
+  - module: script
+    docs: https://www.selenium.dev/documentation/webdriver/bidi/w3c/script/
+    events:
+      - {name: Message}
+      - {name: Realm Created}
+      - {name: Realm Destroyed}
+    commands_note: >-
+      Call function or evaluate script in a browsing context, a sandbox or a realm; disown handles;
+      enumerate realms; preload and remove preloaded scripts.
+  - module: input
+    docs: https://www.selenium.dev/documentation/webdriver/bidi/w3c/input/
+    events: []
+    commands_note: 'Perform Actions and Release Actions only — this module publishes no events.'
+webhooks:
+  supported: false
+  note: >-
+    Selenium delivers nothing to a caller-hosted URL. There is no webhook registration, no signing
+    secret, no delivery retry — the concepts do not apply to a library that runs inside the caller's
+    own process.
+agent_guidance: >-
+  To consume Selenium events an agent must hold an open WebSocket for the life of the session, which
+  is a materially different integration shape from subscribing to webhooks: there is no replay, no
+  at-least-once delivery and no backlog. Events missed while disconnected are gone. Legacy CDP-based
+  event access still exists in the bindings but is explicitly superseded — build on BiDi.

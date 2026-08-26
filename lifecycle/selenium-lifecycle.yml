@@ -1,0 +1,118 @@
+generated: '2026-08-26'
+method: searched
+source: >-
+  https://github.com/SeleniumHQ/selenium/blob/trunk/AGENTS.md (compatibility invariant +
+  deprecation policy), https://api.github.com/repos/SeleniumHQ/selenium/releases,
+  https://www.selenium.dev/blog/ release announcements,
+  https://www.selenium.dev/documentation/webdriver/troubleshooting/upgrade_to_selenium_4/,
+  https://www.selenium.dev/documentation/legacy/, and
+  https://www.selenium.dev/documentation/warnings/bidi-implementation/ — all read 2026-08-26
+provider: Selenium
+providerId: selenium
+description: >-
+  Versioning, deprecation and support posture for the Selenium project. Selenium ships software
+  people run themselves; there is no vendor-operated service, so several fields that would carry an
+  SLA or an uptime page for a SaaS provider are structurally not applicable here and are recorded
+  as such rather than left blank.
+versioning:
+  scheme: MAJOR.MINOR.PATCH release train (explicitly NOT semver)
+  current_version: 4.47.0
+  released: '2026-08-10'
+  in_url: false
+  in_header: false
+  note: >-
+    AGENTS.md: "This project does not follow semantic versioning (semver)". The number is a
+    coordinated release train — Java, Python, .NET, Ruby and JavaScript all published 4.47.0 within
+    eight minutes of one another on 2026-08-10. The wire protocol itself is versioned by the W3C
+    (WebDriver Level 2 / WebDriver BiDi), not by Selenium's release number, so a Selenium upgrade
+    does not change the HTTP contract.
+  compatibility_invariant: >-
+    "Maintain API/ABI compatibility by default (users upgrade by changing only the version number);
+    public functionality may be removed only after it has gone through the Deprecation policy."
+deprecation:
+  policy_published: true
+  policy_url: https://github.com/SeleniumHQ/selenium/blob/trunk/AGENTS.md
+  policy: >-
+    Before removing public functionality, it must first be marked deprecated with a message pointing
+    to the alternative. Language-specific AGENTS.md files carry the per-binding deprecation
+    mechanism.
+  sunset_header: false
+  deprecation_header: false
+  note: >-
+    RFC 8594 Sunset/Deprecation headers are not used and would not apply — deprecation here is a
+    source-level annotation in five language bindings, surfaced to the developer at compile time or
+    as a runtime warning, not an HTTP response header. That is the correct mechanism for a client
+    library, but it means an agent calling the wire protocol gets no deprecation signal at all.
+  recent_deprecations:
+    - item: FTP proxy support
+      action: removed
+      version: 4.47.0
+      source: javascript/selenium-webdriver/CHANGES.md — "remove deprecated FTP proxy support (#17846)"
+    - item: Invalid Firefox profile code
+      action: deprecated
+      version: 4.47.0
+      source: javascript/selenium-webdriver/CHANGES.md — "deprecate invalid Firefox profile code (#17871)"
+    - item: Chrome DevTools Protocol (CDP) integration
+      action: legacy
+      status: superseded by WebDriver BiDi
+      source: >-
+        llms.txt — "WebDriver BiDi is the supported route for events, network interception, and
+        console log access. The Chrome DevTools Protocol integration is legacy."
+        See also https://www.selenium.dev/documentation/warnings/bidi-implementation/
+    - item: Desired Capabilities
+      action: removed
+      version: '4.0'
+      replacement: Per-browser Options classes
+      source: https://www.selenium.dev/documentation/webdriver/troubleshooting/upgrade_to_selenium_4/
+    - item: JSON Wire Protocol (OSS dialect)
+      action: removed
+      version: '4.0'
+      replacement: W3C WebDriver protocol
+      source: https://www.selenium.dev/documentation/legacy/json_wire_protocol/
+    - item: Third-party driver managers and manual driver paths
+      action: discouraged
+      replacement: Selenium Manager, bundled since 4.6
+      source: >-
+        llms.txt — "Selenium 4.6 and later include Selenium Manager... Do not set driver executable
+        paths and do not use third-party driver managers."
+release_cadence:
+  observed: roughly monthly minor releases
+  evidence:
+    - {version: 4.47.0, date: '2026-08-10'}
+    - {version: 4.46.0, date: '2026-07-11'}
+    - {version: 4.45.0, date: '2026-06-16'}
+    - {version: 4.44.0, date: '2026-05-12'}
+    - {version: 4.43.0, date: '2026-04-10'}
+    - {version: 4.42.0, date: '2026-04-09'}
+    - {version: 4.41.0, date: '2026-02-20'}
+  source: https://api.github.com/repos/SeleniumHQ/selenium/releases
+  note: >-
+    A `nightly` pre-release tag is also published continuously (last seen 2026-08-26). Every stable
+    release gets a dated announcement post at https://www.selenium.dev/blog/.
+status_page:
+  present: false
+  url: null
+  note: >-
+    No status page exists and none could. WebDriver, Grid and Selenium Manager all run on
+    infrastructure the consumer owns; there is no Selenium-operated endpoint whose uptime could be
+    reported. The nearest operational dependencies an agent should watch are the browser-vendor
+    driver feeds Selenium Manager downloads from (Chrome for Testing, Mozilla, Microsoft), which the
+    Selenium Manager docs call out as the known connectivity failure mode.
+sla:
+  published: false
+  note: >-
+    No SLA. Selenium is a volunteer open-source project under the Software Freedom Conservancy;
+    support is community support (https://www.selenium.dev/support/), not a contracted service.
+support:
+  channels:
+    - {type: docs, url: https://www.selenium.dev/support/}
+    - {type: issues, url: https://github.com/SeleniumHQ/selenium/issues}
+    - {type: chat, url: https://www.selenium.dev/support/, note: Slack and IRC, archived at SeleniumHQ/selenium-logs}
+governance:
+  url: https://www.selenium.dev/project/governance/
+  structure_url: https://www.selenium.dev/project/structure/
+  note: Project governance and structure are published, which is the open-source analogue of a vendor's trust posture.
+deprecated_operations: []
+deprecated_operations_note: >-
+  None. No operation in openapi/ carries `deprecated: true`; the W3C endpoints captured there are
+  all current in WebDriver Level 2.

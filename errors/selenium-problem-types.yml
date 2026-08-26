@@ -1,0 +1,228 @@
+generated: '2026-08-26'
+method: searched
+source: >-
+  https://www.w3.org/TR/webdriver2/ (§ Errors — the normative error-code table Selenium
+  implements) and
+  https://www.selenium.dev/documentation/webdriver/troubleshooting/errors/ (Selenium's own
+  "Understanding Common Errors" page, which maps the wire codes to binding exception names and
+  states remediation). Both fetched 2026-08-26.
+provider: Selenium
+providerId: selenium
+format: w3c-webdriver
+description: >-
+  Error catalog for the Selenium WebDriver wire protocol. This is NOT RFC 9457: WebDriver predates
+  problem+json and defines its own envelope in the W3C REC. The captured OpenAPI documents in
+  openapi/ declare only 200 responses, so nothing here is derived from the spec — every row is read
+  from the normative W3C error table and, where Selenium documents it, annotated with the binding
+  exception name and the project's own remediation advice.
+envelope:
+  http_status: 4xx or 5xx
+  content_type: application/json
+  shape: |
+    {
+      "value": {
+        "error": "<json error code>",
+        "message": "<implementation-defined human readable description>",
+        "stacktrace": "<implementation-defined stack trace>",
+        "data": { }
+      }
+    }
+  fields:
+    - name: value.error
+      required: true
+      description: The JSON error code — the stable, machine-readable identifier. Match on this.
+    - name: value.message
+      required: true
+      description: Implementation-defined human-readable description. Not stable; do not match on it.
+    - name: value.stacktrace
+      required: true
+      description: Implementation-defined stack trace of the active frames at failure time.
+    - name: value.data
+      required: false
+      description: >-
+        Optional additional error data. Notably present for `unexpected alert open`, which carries
+        a `text` field with the user-prompt message.
+  example: |
+    HTTP/1.1 404 Not Found
+    Content-Type: application/json
+
+    {"value": {"error": "invalid session id",
+               "message": "No active session with ID 1234",
+               "stacktrace": ""}}
+problem_types:
+  - code: element click intercepted
+    status: 400
+    title: Element click intercepted
+    exception: ElementClickInterceptedException
+    description: >-
+      The Element Click command could not be completed because the element receiving the events is
+      obscuring the element that was requested clicked.
+    remediation: >-
+      Selenium's troubleshooting page treats this as a timing/overlay problem — wait for the
+      obscuring element (banner, modal, sticky header) to clear, or scroll the target into view,
+      rather than retrying the click immediately.
+  - code: element not interactable
+    status: 400
+    title: Element not interactable
+    exception: ElementNotInteractableException
+    description: A command could not be completed because the element is not pointer- or keyboard-interactable.
+    remediation: >-
+      Documented by Selenium alongside ElementNotVisibleException; use an explicit wait on an
+      interactability condition instead of a fixed sleep.
+  - code: insecure certificate
+    status: 400
+    title: Insecure certificate
+    description: >-
+      Navigation caused the user agent to hit a certificate warning, usually an expired or invalid
+      TLS certificate.
+    remediation: Set acceptInsecureCerts in the browser Options when driving a test host with a self-signed cert.
+  - code: invalid argument
+    status: 400
+    title: Invalid argument
+    description: The arguments passed to a command are either invalid or malformed.
+  - code: invalid cookie domain
+    status: 400
+    title: Invalid cookie domain
+    description: An illegal attempt was made to set a cookie under a different domain than the current page.
+    remediation: Navigate to the target domain before adding the cookie.
+  - code: invalid element state
+    status: 400
+    title: Invalid element state
+    description: >-
+      A command could not be completed because the element is in an invalid state — e.g. clearing an
+      element that is not both editable and resettable.
+  - code: invalid selector
+    status: 400
+    title: Invalid selector
+    exception: InvalidSelectorException
+    description: Argument was an invalid selector.
+    remediation: >-
+      Selenium's advice: the CSS or XPath query has invalid characters, or a CSS value was passed to
+      an XPath selector (or vice versa). Validate the selector, or capture a known-good one from a
+      browser extension.
+  - code: invalid session id
+    status: 404
+    title: Invalid session ID
+    exception: InvalidSessionIdException
+    description: >-
+      The given session id is not in the list of active sessions — the session either does not exist
+      or is no longer active.
+    remediation: >-
+      Usually means the session was already quit or timed out. Grid will kill a session with no
+      activity for --session-timeout seconds (default 300). Create a new session.
+  - code: javascript error
+    status: 500
+    title: JavaScript error
+    exception: JavascriptException
+    description: An error occurred while executing JavaScript supplied by the user.
+  - code: move target out of bounds
+    status: 500
+    title: Move target out of bounds
+    description: The target for mouse interaction is not in the browser's viewport and cannot be brought into it.
+  - code: no such alert
+    status: 404
+    title: No such alert
+    description: An attempt was made to operate on a modal dialog when one was not open.
+  - code: no such cookie
+    status: 404
+    title: No such cookie
+    description: >-
+      No cookie matching the given path name was found among the associated cookies of the current
+      browsing context's active document.
+  - code: no such element
+    status: 404
+    title: No such element
+    exception: NoSuchElementException
+    description: An element could not be located on the page using the given search parameters.
+    remediation: >-
+      Selenium's advice: you are looking in the wrong place (a previous action failed), at the wrong
+      time (the element is not in the DOM yet), or the locator has gone stale relative to the app.
+      Use a proper waiting strategy rather than a sleep.
+  - code: no such frame
+    status: 404
+    title: No such frame
+    description: A command to switch to a frame could not be satisfied because the frame could not be found.
+  - code: no such window
+    status: 404
+    title: No such window
+    description: A command to switch to a window could not be satisfied because the window could not be found.
+  - code: no such shadow root
+    status: 404
+    title: No such shadow root
+    description: The element does not have a shadow root.
+  - code: detached shadow root
+    status: 404
+    title: Detached shadow root
+    description: A command failed because the referenced shadow root is no longer attached to the DOM.
+  - code: stale element reference
+    status: 404
+    title: Stale element reference
+    exception: StaleElementReferenceException
+    description: A command failed because the referenced element is no longer attached to the DOM.
+    remediation: >-
+      Selenium documents this as the classic re-render case — the element reference was captured
+      before a navigation or DOM update. Re-locate the element after the change.
+  - code: script timeout
+    status: 500
+    title: Script timeout
+    error_code_name: script timeout error
+    description: A script did not complete before its timeout expired.
+  - code: session not created
+    status: 500
+    title: Session not created
+    exception: SessionNotCreatedException
+    description: A new session could not be created.
+    remediation: >-
+      Historically the driver/browser version mismatch case ("This version of ChromeDriver only
+      supports Chrome version N"). Selenium Manager, bundled since 4.6, resolves the matching driver
+      automatically — do not set driver executable paths or use third-party driver managers.
+  - code: timeout
+    status: 500
+    title: Timeout
+    exception: TimeoutException
+    description: An operation did not complete before its timeout expired.
+  - code: unable to set cookie
+    status: 500
+    title: Unable to set cookie
+    description: A command to set a cookie's value could not be satisfied.
+  - code: unable to capture screen
+    status: 500
+    title: Unable to capture screen
+    description: A screen capture was made impossible.
+  - code: unexpected alert open
+    status: 500
+    title: Unexpected alert open
+    description: A modal dialog was open, blocking this operation.
+    data: 'Carries value.data.text with the user-prompt message.'
+  - code: unknown command
+    status: 404
+    title: Unknown command
+    description: A command could not be executed because the remote end is not aware of it.
+    remediation: >-
+      Frequently a capability gap between remote ends rather than a caller bug — a driver that has
+      not implemented an optional or extension command.
+  - code: unknown error
+    status: 500
+    title: Unknown error
+    description: An unknown error occurred in the remote end while processing the command.
+  - code: unknown method
+    status: 405
+    title: Unknown method
+    description: The requested command matched a known URL but did not match any method for that URL.
+  - code: unsupported operation
+    status: 500
+    title: Unsupported operation
+    description: A command that should have executed properly cannot be supported for some reason.
+notes:
+  - >-
+    Selenium additionally documents ElementNotVisibleException on its troubleshooting page. It maps
+    to the `element not interactable` wire code — it is a binding-level legacy exception, not a
+    distinct W3C error code, and is listed here only for symbol lookup.
+  - >-
+    Agents should branch on value.error, never on value.message or the HTTP status alone: several
+    distinct codes share status 404 (invalid session id, no such element, stale element reference,
+    unknown command) and several share 500.
+  - >-
+    Error codes are defined by the W3C REC, so they are identical across every conformant remote end
+    — chromedriver, geckodriver, msedgedriver, safaridriver, a Selenium Grid, or a hosted grid such
+    as BrowserStack or Sauce Labs.

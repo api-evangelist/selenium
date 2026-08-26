@@ -1,0 +1,150 @@
+generated: '2026-08-26'
+method: searched
+source: >-
+  https://www.selenium.dev/llms.txt, https://www.selenium.dev/documentation/webdriver/,
+  https://www.selenium.dev/documentation/webdriver/bidi/w3c/,
+  https://www.selenium.dev/documentation/grid/advanced_features/graphql_support/,
+  https://www.selenium.dev/documentation/legacy/json_wire_protocol/,
+  https://github.com/SeleniumHQ/selenium/blob/trunk/AGENTS.md, and
+  openapi/_original/selenium-openapi.yml — all fetched/read 2026-08-26
+provider: Selenium
+providerId: selenium
+description: >-
+  Cross-cutting and domain-standard conformance for Selenium. Selenium is an unusual case: it is
+  not a vendor claiming conformance to somebody else's standard, it is one of the parties that
+  writes the standard. The project's own llms.txt states it plainly — "Selenium is the browser
+  automation project behind the W3C WebDriver and WebDriver BiDi standards" — and the wire protocol
+  it implements is the W3C REC itself, implemented independently by the browser vendors.
+domain_standard:
+  market: Browser automation / end-to-end web testing
+  standards:
+    - id: w3c-webdriver
+      name: W3C WebDriver (WebDriver Level 2)
+      url: https://www.w3.org/TR/webdriver2/
+      conforms: true
+      role: co-author and reference implementation
+      evidence:
+        - >-
+          openapi/_original/selenium-openapi.yml info.description: "Selenium WebDriver implements
+          the W3C WebDriver protocol — a platform- and language-neutral HTTP wire protocol used by
+          out-of-process programs to remotely instruct browsers."
+        - >-
+          The captured operation set IS the W3C endpoint vocabulary verbatim: GET /status,
+          POST /session, DELETE /session/{sessionId}, POST|GET /session/{sessionId}/url,
+          GET /session/{sessionId}/title, POST /session/{sessionId}/back, .../forward,
+          POST /session/{sessionId}/element, .../elements,
+          POST /session/{sessionId}/element/{elementId}/click,
+          POST /session/{sessionId}/execute/sync, GET /session/{sessionId}/cookie.
+        - >-
+          Request shapes are the W3C ones: createSession takes a `capabilities` object with
+          alwaysMatch/firstMatch; findElement takes a {using, value} locator.
+        - >-
+          Responses use the W3C `{"value": ...}` envelope, visible in getStatus and getCurrentUrl.
+      note: >-
+        This is the strongest form of domain-standard conformance available: a consumer who already
+        speaks W3C WebDriver integrates with Selenium with no bespoke connector, and can swap in any
+        other conformant remote end (chromedriver, geckodriver, msedgedriver, safaridriver, or a
+        third-party grid such as BrowserStack or Sauce Labs) without changing the wire calls.
+    - id: w3c-webdriver-bidi
+      name: WebDriver BiDi
+      url: https://w3c.github.io/webdriver-bidi/
+      conforms: true
+      role: co-author and reference implementation
+      evidence:
+        - >-
+          https://www.selenium.dev/documentation/webdriver/bidi/w3c/ documents the W3C BiDi modules
+          Selenium implements: Browsing Context, Input, Log, Network, Script.
+        - >-
+          The monorepo vendors the machine-readable BiDi schema at
+          common/bidi/webdriver-bidi-1140.cddl and generates binding types from it — see the
+          4.46.0/4.47.0 changelog entries "Add binding-neutral BiDi schema with cddl2ts-gated
+          fidelity" and "merge vendor cddl files into shared BiDi schema".
+        - >-
+          llms.txt: "WebDriver BiDi is the supported route for events, network interception, and
+          console log access. The Chrome DevTools Protocol integration is legacy."
+      note: See asyncapi/selenium-bidi-events.yml for the event surface this standard defines.
+    - id: w3c-webdriver-classic-json-wire
+      name: JSON Wire Protocol (pre-W3C)
+      url: https://www.selenium.dev/documentation/legacy/json_wire_protocol/
+      conforms: false
+      status: superseded
+      evidence:
+        - >-
+          Retained only as legacy documentation. Selenium 4 removed the OSS/JSON Wire Protocol
+          dialect and Desired Capabilities; llms.txt: "Desired Capabilities were removed in
+          Selenium 4; use the per-browser Options classes instead."
+conformance:
+  - id: openapi
+    name: OpenAPI 3.1
+    conforms: true
+    evidence: >-
+      openapi/ carries six OpenAPI 3.1.0 documents (one per WebDriver resource) plus the merged
+      source at openapi/_original/selenium-openapi.yml. These are API Evangelist derivations of the
+      W3C wire protocol, not a Selenium-published spec — the project itself publishes no OpenAPI.
+    published_by_provider: false
+  - id: graphql
+    name: GraphQL
+    conforms: true
+    evidence: >-
+      Selenium Grid serves a GraphQL query endpoint at /graphql. The SDL is published in the
+      monorepo at java/src/org/openqa/selenium/grid/graphql/selenium-grid-schema.graphqls and is
+      saved verbatim at graphql/selenium-grid.graphql (schema { query: GridQuery }, 4 root fields,
+      enum Status { UP DRAINING DOWN }, scalar Uri). Documented at
+      https://www.selenium.dev/documentation/grid/advanced_features/graphql_support/
+    published_by_provider: true
+  - id: oauth2
+    name: OAuth 2.0
+    conforms: false
+    evidence: >-
+      No OAuth anywhere. The W3C WebDriver protocol defines no authentication; Selenium Grid
+      offers HTTP Basic (--username/--password) and a shared registration secret header. See
+      authentication/selenium-authentication.yml.
+  - id: oidc
+    name: OpenID Connect
+    conforms: false
+    evidence: /.well-known/openid-configuration returned 404 on www.selenium.dev (2026-08-26).
+  - id: rfc9457
+    name: RFC 9457 Problem Details
+    conforms: false
+    evidence: >-
+      WebDriver uses its own error envelope — an HTTP status plus
+      {"value":{"error":"<code>","message":"...","stacktrace":"..."}} — defined by the W3C spec, not
+      application/problem+json. See errors/selenium-problem-types.yml.
+  - id: idempotency
+    name: Idempotency keys
+    conforms: false
+    evidence: >-
+      No Idempotency-Key header. Idempotency in WebDriver is a property of the verb, not a header:
+      GET/DELETE reads and teardowns are naturally idempotent, POST navigation and clicks are not.
+      See conventions/selenium-conventions.yml.
+  - id: pagination
+    name: Pagination
+    conforms: false
+    evidence: >-
+      Not applicable. Every collection response (findElements, getCookies, GraphQL nodesInfo) is
+      returned whole; the collections are bounded by the browser session, not by a page cursor.
+  - id: opentelemetry
+    name: OpenTelemetry distributed tracing
+    conforms: true
+    evidence: >-
+      https://www.selenium.dev/documentation/grid/advanced_features/observability/ documents Grid 4
+      as instrumented for distributed tracing (traces, spans, span attributes, events) and
+      structured event logging across its distributed components.
+  - id: semver
+    name: Semantic versioning
+    conforms: false
+    evidence: >-
+      AGENTS.md states it outright: "This project does not follow semantic versioning (semver);
+      before removing public functionality, mark it as deprecated with a message pointing to the
+      alternative." What the project DOES guarantee is a compatibility invariant — "users upgrade by
+      changing only the version number" — with public functionality removable only after passing
+      through the deprecation policy. Version numbers move in lockstep across all five bindings
+      (4.47.0 on 2026-08-10), so the number is a coordinated release train, not a SemVer contract.
+    source: https://github.com/SeleniumHQ/selenium/blob/trunk/AGENTS.md
+certifications: []
+compliance_programs: []
+note: >-
+  No certifications, audit reports or compliance programs are published. Selenium is a volunteer
+  open-source project under the Software Freedom Conservancy that ships software people run
+  themselves; it operates no service that could carry SOC 2, ISO 27001 or similar. No `Compliance`
+  pointer is emitted, because there is no compliance program to point at.

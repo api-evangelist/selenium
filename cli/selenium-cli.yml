@@ -1,0 +1,136 @@
+generated: '2026-08-26'
+method: searched
+source: >-
+  https://www.selenium.dev/documentation/selenium_manager/,
+  https://www.selenium.dev/documentation/grid/configuration/cli_options/,
+  https://www.selenium.dev/documentation/grid/getting_started/,
+  https://www.npmjs.com/package/selenium-side-runner — all read 2026-08-26
+provider: Selenium
+providerId: selenium
+description: >-
+  Selenium ships three first-party command-line tools. They are not one CLI with subcommands: each is
+  a separate binary with its own distribution channel, and only one of them (Selenium Manager) is
+  bundled automatically with every language binding.
+clis:
+  - name: selenium-manager
+    title: Selenium Manager
+    official: true
+    implementation: Rust
+    docs: https://www.selenium.dev/documentation/selenium_manager/
+    purpose: >-
+      Automated driver and browser management. Resolves and downloads the correct driver
+      (chromedriver, geckodriver, msedgedriver, IEDriverServer, safaridriver) and, when asked, the
+      browser itself. Bundled with every Selenium release since 4.6 and invoked by the bindings by
+      default — most users never call it directly.
+    install:
+      - method: bundled
+        detail: Ships inside every Selenium binding release; nothing to install.
+      - method: snapshot
+        detail: Standalone builds are snapshotted at https://github.com/SeleniumHQ/selenium_manager_artifacts
+    configuration_precedence:
+      - CLI arguments
+      - se-config.toml in the Selenium cache (default ~/.cache/selenium)
+      - SE_* environment variables
+    flags:
+      - flag: --browser <BROWSER>
+        toml: browser
+        env: SE_BROWSER
+        values: [chrome, firefox, edge, iexplorer, safari, safaritp, webview2]
+      - flag: --driver <DRIVER>
+        toml: driver
+        env: SE_DRIVER
+        values: [chromedriver, geckodriver, msedgedriver, IEDriverServer, safaridriver]
+      - flag: --browser-version <BROWSER_VERSION>
+        toml: browser-version
+        env: SE_BROWSER_VERSION
+        detail: 'Major browser version (105, 106, ...). Also accepts beta, dev, canary/nightly, and esr (Firefox).'
+      - flag: --driver-version <DRIVER_VERSION>
+        toml: driver-version
+        env: SE_DRIVER_VERSION
+      - flag: --output <OUTPUT>
+        toml: output
+        env: SE_OUTPUT
+        values: [LOGGER, JSON, SHELL, MIXED]
+        default: LOGGER
+        detail: >-
+          The flag that matters for automation. JSON emits a custom JSON notation; MIXED sends
+          INFO/WARN/DEBUG to stderr and minimal JSON to stdout, which is the machine-readable mode.
+      - flag: --os <OS>
+        toml: os
+        env: SE_OS
+        values: [windows, linux, macos]
+      - flag: --arch <ARCH>
+        toml: arch
+        env: SE_ARCH
+      - flag: --cache-path <CACHE_PATH>
+        toml: cache-path
+        env: SE_CACHE_PATH
+        default: ~/.cache/selenium
+        detail: 'Windows paths in the TOML file need doubled backslashes (C:\\custom\\cache).'
+      - flag: --ttl <TTL>
+        toml: ttl
+        env: SE_TTL
+        detail: Time-to-live for cached metadata.
+      - flag: --grid [<GRID_VERSION>]
+        detail: >-
+          Discovers the latest Selenium Grid release and stores selenium-server.jar in the local
+          cache; an optional argument pins the Grid version.
+      - flag: --help
+    known_limitations:
+      - >-
+        Requires outbound network access to remote endpoints such as Chrome for Testing; the docs
+        call connectivity the primary failure mode.
+      - Custom package managers, alternative architectures and browser dependencies are documented gaps.
+    note: >-
+      llms.txt tells code generators explicitly: "Selenium 4.6 and later include Selenium Manager...
+      Do not set driver executable paths and do not use third-party driver managers."
+  - name: selenium-server
+    title: Selenium Grid / standalone server
+    official: true
+    implementation: Java
+    docs: https://www.selenium.dev/documentation/grid/getting_started/
+    distribution: GitHub release asset (selenium-server-<version>.jar), or `selenium-manager --grid`
+    invocation: java -jar selenium-server.jar <role> [options]
+    roles:
+      - standalone
+      - hub
+      - node
+      - distributor
+      - router
+      - sessions
+      - sessionqueue
+      - info
+    key_flags:
+      - {flag: --port, default: 4444, detail: Port to listen on.}
+      - {flag: --host, detail: 'Server IP or hostname; usually determined automatically.'}
+      - {flag: --bind-host, detail: Bind to the host address, or only use it to report the reachable URL.}
+      - {flag: --sub-path, example: my_company/selenium_grid, detail: Sub-path to serve from when reverse-proxied.}
+      - {flag: --username, detail: HTTP Basic user name — must be set together with --password.}
+      - {flag: --password, detail: HTTP Basic password — must be set together with --username.}
+      - {flag: --registration-secret, detail: Shared secret authenticating Node registration.}
+      - {flag: --https-certificate, detail: Server certificate for HTTPS.}
+      - {flag: --https-private-key, detail: Private key for HTTPS (PKCS8).}
+      - {flag: --allow-cors, default: false, detail: Allow web-browser connections from any host.}
+      - {flag: --session-timeout, default: 300, detail: Seconds of inactivity before a Node kills a session.}
+      - {flag: --session-request-timeout, default: 300, detail: Seconds a queued session request may wait.}
+      - {flag: --healthcheck-interval, default: 120, detail: Seconds between Node health checks.}
+      - {flag: --max-threads, detail: 'Maximum listener threads; default is (available processors) * 3.'}
+      - {flag: --reject-unsupported-caps, default: false, detail: Reject immediately when the Grid cannot support requested capabilities.}
+    config_sections:
+      [distributor, docker, kubernetes, events, logging, network, node, relay, router, server, sessionqueue, sessions]
+    config_file: TOML
+    docs_config: https://www.selenium.dev/documentation/grid/configuration/toml_options/
+    subcommand_note: '`java -jar selenium-server.jar info security` prints the project security guidance.'
+  - name: selenium-side-runner
+    title: Selenium IDE CLI runner
+    official: true
+    implementation: JavaScript
+    install: npm install -g selenium-side-runner
+    package: https://www.npmjs.com/package/selenium-side-runner
+    repository: https://github.com/SeleniumHQ/selenium-ide
+    purpose: Run Selenium IDE (.side) projects from the command line.
+    version: 4.0.13
+    published: '2024-11-22'
+    note: >-
+      Currency gap — last published 2024-11-22, more than 20 months behind the WebDriver bindings.
+      Selenium IDE is a separate repo on a separate cadence.

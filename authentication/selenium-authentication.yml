@@ -1,0 +1,102 @@
+generated: '2026-08-26'
+method: searched
+source: >-
+  https://www.selenium.dev/documentation/grid/configuration/cli_options/ (Server and Node sections,
+  read 2026-08-26), https://www.selenium.dev/documentation/grid/advanced_features/endpoints/,
+  https://www.w3.org/TR/webdriver2/, and openapi/_original/selenium-openapi.yml
+provider: Selenium
+providerId: selenium
+description: >-
+  Authentication model for the Selenium WebDriver wire protocol and Selenium Grid. The W3C WebDriver
+  standard defines NO authentication — that is a deliberate property of the standard, not an
+  omission by Selenium. Security is a deployment concern: run the remote end on a private network,
+  front it with a reverse proxy, or turn on Grid's built-in HTTP Basic. derive-authentication.py
+  produced no profile for this provider precisely because the captured OpenAPI declares no
+  securitySchemes; everything below is read from the Grid documentation instead.
+schemes:
+  - id: none
+    type: none
+    applies_to: WebDriver remote end (chromedriver, geckodriver, msedgedriver, safaridriver, standalone)
+    description: >-
+      No authentication. Any process that can reach the port can create a session and drive a
+      browser, execute arbitrary JavaScript in it, and read its cookies.
+    evidence: >-
+      openapi/_original/selenium-openapi.yml info.description: "No authentication is defined by the
+      W3C protocol itself; deployments typically front the endpoint with a reverse proxy or run on a
+      private network."
+  - id: basic
+    type: http
+    scheme: basic
+    applies_to: Selenium Grid server (Standalone, Hub, Router)
+    description: >-
+      HTTP Basic authentication on the Grid server, enabled by setting BOTH --username and
+      --password. The docs are explicit that neither works alone.
+    configuration:
+      - flag: --username
+        type: string
+        example: admin
+        description: User name clients must use to connect to the server.
+      - flag: --password
+        type: string
+        example: myStrongPassword
+        description: Password clients must use to connect to the server.
+    required_together: true
+    docs: https://www.selenium.dev/documentation/grid/configuration/cli_options/
+  - id: registration-secret
+    type: apiKey
+    in: header
+    name: X-REGISTRATION-SECRET
+    applies_to: Node registration and Distributor administrative endpoints
+    description: >-
+      A shared secret authenticating Node registration requests to the Hub/Distributor, and required
+      on the Grid administrative endpoints. Configured with --registration-secret and it must match
+      on both ends.
+    configuration:
+      - flag: --registration-secret
+        type: string
+        example: '"Hunter2"'
+        description: >-
+          Shared secret used to authenticate Node registration requests. Must match the value set on
+          the Hub/Distributor.
+    usage_example: >-
+      curl --request DELETE 'http://localhost:4444/se/grid/distributor/node/<node-id>'
+      --header 'X-REGISTRATION-SECRET: <secret>'
+    empty_secret_form: >-
+      If no registration secret has been configured, the header is still required but sent empty —
+      the documented form is `--header 'X-REGISTRATION-SECRET;'` (note the trailing semicolon, curl's
+      empty-header syntax). An agent that omits the header entirely gets a different failure than one
+      that sends it empty.
+    docs: https://www.selenium.dev/documentation/grid/advanced_features/endpoints/
+transport_security:
+  - flag: --https-certificate
+    type: path
+    description: Server certificate for HTTPS.
+  - flag: --https-private-key
+    type: path
+    description: Private key for HTTPS (PKCS8).
+transport_security_note: >-
+  TLS is opt-in and off by default; the documented default base is plain http://localhost:4444.
+  `java -jar selenium-server.jar info security` prints the project's own security guidance.
+network_exposure:
+  - flag: --allow-cors
+    default: false
+    description: >-
+      Whether the Selenium server should allow web-browser connections from any host. Leaving this
+      off is what keeps a page under test from driving the Grid that is testing it.
+  - flag: --bind-host
+    description: >-
+      Whether the server binds to the host address or only uses it to report its reachable URL.
+      Relevant when deciding what the remote end is actually listening on.
+  - flag: --sub-path
+    example: my_company/selenium_grid
+    description: A sub-path the server should serve from, e.g. when reverse-proxied.
+oauth: false
+oidc: false
+mtls: false
+api_keys: false
+guidance_for_agents: >-
+  Treat a WebDriver endpoint as an unauthenticated remote-code-execution surface unless you put auth
+  in front of it. POST /session/{sessionId}/execute/sync runs arbitrary JavaScript in a real browser
+  under the identity of whatever is loaded in it, and GET /session/{sessionId}/cookie returns that
+  browsing context's cookies. Neither requires a credential by default. If you are exposing a Grid
+  beyond localhost, set --username/--password, set --registration-secret, and enable HTTPS.

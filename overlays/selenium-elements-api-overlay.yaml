@@ -1,0 +1,166 @@
+# OpenAPI Overlay 1.0.0 — API Evangelist enhancements. Never mutate the source OpenAPI.
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements — Selenium elements api
+  version: 1.0.0
+extends: selenium-elements-api-openapi.yml
+x-generated: '2026-08-26'
+x-method: generated
+x-source: https://www.w3.org/TR/webdriver2/ (§ Errors) + conventions/selenium-conventions.yml
+actions:
+- target: $.info
+  description: Record the governing standard and the API Evangelist artifact set on the document itself.
+  update:
+    x-standard:
+      name: W3C WebDriver (WebDriver Level 2)
+      url: https://www.w3.org/TR/webdriver2/
+      role: Selenium is a co-author and reference implementation
+    x-error-catalog: errors/selenium-problem-types.yml
+    x-conventions: conventions/selenium-conventions.yml
+    x-authentication: authentication/selenium-authentication.yml
+    x-self-hosted: true
+    x-self-hosted-note: There is no vendor-operated host. The remote end runs on infrastructure the caller
+      owns; the documented default is http://localhost:4444.
+- target: $
+  description: Point at the project documentation as external docs.
+  update:
+    externalDocs:
+      description: Selenium WebDriver documentation
+      url: https://www.selenium.dev/documentation/webdriver/
+- target: $.paths['/session/{sessionId}/element'].post.responses
+  description: Add the W3C WebDriver error responses the source document omits for findElement.
+  update:
+    '400':
+      description: invalid argument — The arguments passed to a command are either invalid or malformed.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/WebDriverError'
+    '404':
+      description: unknown command — A command could not be executed because the remote end is not aware
+        of it.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/WebDriverError'
+    '405':
+      description: unknown method — The requested command matched a known URL but did not match any method
+        for that URL.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/WebDriverError'
+    '500':
+      description: unknown error — An unknown error occurred in the remote end while processing the command.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/WebDriverError'
+- target: $.paths['/session/{sessionId}/element'].post
+  description: Record reversibility and idempotency semantics for findElement.
+  update:
+    x-reversibility:
+      reversible: null
+      grade: na
+      note: Read-only operation.
+    x-idempotent: false
+- target: $.paths['/session/{sessionId}/elements'].post.responses
+  description: Add the W3C WebDriver error responses the source document omits for findElements.
+  update:
+    '400':
+      description: invalid argument — The arguments passed to a command are either invalid or malformed.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/WebDriverError'
+    '404':
+      description: unknown command — A command could not be executed because the remote end is not aware
+        of it.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/WebDriverError'
+    '405':
+      description: unknown method — The requested command matched a known URL but did not match any method
+        for that URL.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/WebDriverError'
+    '500':
+      description: unknown error — An unknown error occurred in the remote end while processing the command.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/WebDriverError'
+- target: $.paths['/session/{sessionId}/elements'].post
+  description: Record reversibility and idempotency semantics for findElements.
+  update:
+    x-reversibility:
+      reversible: null
+      grade: na
+      note: Read-only operation.
+    x-idempotent: false
+- target: $.paths['/session/{sessionId}/element/{elementId}/click'].post.responses
+  description: Add the W3C WebDriver error responses the source document omits for clickElement.
+  update:
+    '400':
+      description: invalid argument — The arguments passed to a command are either invalid or malformed.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/WebDriverError'
+    '404':
+      description: unknown command — A command could not be executed because the remote end is not aware
+        of it.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/WebDriverError'
+    '405':
+      description: unknown method — The requested command matched a known URL but did not match any method
+        for that URL.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/WebDriverError'
+    '500':
+      description: unknown error — An unknown error occurred in the remote end while processing the command.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/WebDriverError'
+- target: $.paths['/session/{sessionId}/element/{elementId}/click'].post
+  description: Record reversibility and idempotency semantics for clickElement.
+  update:
+    x-reversibility:
+      reversible: false
+      reversal-operation: null
+      grade: none
+      note: A click is delivered to the application under test; Selenium has no undo.
+    x-idempotent: false
+- target: $.components.schemas
+  description: Add the W3C WebDriver error envelope schema, which the source document does not define.
+  update:
+    WebDriverError:
+      type: object
+      description: W3C WebDriver error envelope. Branch on value.error; value.message is implementation-defined.
+      properties:
+        value:
+          type: object
+          required:
+          - error
+          - message
+          - stacktrace
+          properties:
+            error:
+              type: string
+              description: The JSON error code, e.g. "no such element".
+            message:
+              type: string
+            stacktrace:
+              type: string
+            data:
+              type: object
+              description: 'Optional additional error data, e.g. {"text": "..."} for unexpected alert
+                open.'

@@ -1,0 +1,91 @@
+generated: '2026-08-26'
+method: derived
+source: >-
+  openapi/selenium-*-openapi.yml (candidate tool surface) plus a 2026-08-26 search of
+  github.com/SeleniumHQ, www.selenium.dev and the npm/PyPI registries for an official server
+provider: Selenium
+providerId: selenium
+name: Selenium WebDriver (candidate MCP surface)
+status: candidate
+description: >-
+  The Selenium project ships NO official MCP server. A search of the SeleniumHQ GitHub
+  organization (23 repos, listed 2026-08-26), www.selenium.dev/llms.txt, the documentation site
+  and the npm/PyPI registries found no first-party server. Every "Selenium MCP" package on the
+  registries — selenium-mcp-server (PyPI), angiejones/mcp-selenium, SirBlobby/mcp-selenium,
+  naveenanimation20/selenium-mcp, @dhivakaranthonydoss/mcp-selenium and others — is
+  community-maintained and unaffiliated with the Selenium project. This file therefore records a
+  DERIVED candidate tool list, computed from the WebDriver operations already captured in
+  openapi/, so the surface is documented without asserting a server that does not exist.
+deployment:
+  mode: none
+  endpoint: null
+  install: null
+  package: null
+  auth: unknown
+  verified: derived
+notes:
+  - >-
+    Even if the Selenium project shipped a server, the deployment mode could only ever be
+    local-stdio. WebDriver drives a browser process on the caller's own machine; there is no
+    vendor-operated endpoint an agent could POST to, and any remote form is a Selenium Grid the
+    consumer runs themselves at http://localhost:4444.
+  - >-
+    Never treat a community package as this provider's MCP server. None of the packages above is
+    published by SeleniumHQ and none is referenced from selenium.dev.
+  - >-
+    The provider DOES publish agent-facing material: an AGENTS.md at the monorepo root (saved to
+    skills/selenium-AGENTS.md) and a curated llms.txt with explicit code-generation guidance.
+    Those are the real agent surfaces here, not an MCP server.
+candidate_tools:
+  - name: get_status
+    description: Check whether the WebDriver remote end is ready to create a session.
+    rest: [getStatus]
+    consequence: read
+  - name: create_session
+    description: Start a new WebDriver session with a W3C capabilities request.
+    rest: [createSession]
+    consequence: write
+  - name: delete_session
+    description: Terminate a WebDriver session and quit the driver.
+    rest: [deleteSession]
+    consequence: write
+  - name: navigate_to
+    description: Navigate the browsing context to a URL.
+    rest: [navigateTo]
+    consequence: write
+  - name: get_current_url
+    description: Read the current page URL.
+    rest: [getCurrentUrl]
+    consequence: read
+  - name: get_title
+    description: Read the current page title.
+    rest: [getTitle]
+    consequence: read
+  - name: navigate_back
+    description: Go back one entry in the browsing history.
+    rest: [navigateBack]
+    consequence: write
+  - name: navigate_forward
+    description: Go forward one entry in the browsing history.
+    rest: [navigateForward]
+    consequence: write
+  - name: find_element
+    description: Locate a single element using a W3C locator strategy.
+    rest: [findElement]
+    consequence: read
+  - name: find_elements
+    description: Locate all elements matching a W3C locator strategy.
+    rest: [findElements]
+    consequence: read
+  - name: click_element
+    description: Click a previously located element.
+    rest: [clickElement]
+    consequence: write
+  - name: execute_script_sync
+    description: Execute JavaScript synchronously in the page context.
+    rest: [executeScriptSync]
+    consequence: safety-critical
+  - name: get_cookies
+    description: Retrieve all cookies visible to the current browsing context.
+    rest: [getCookies]
+    consequence: read

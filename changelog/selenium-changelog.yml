@@ -1,0 +1,79 @@
+generated: '2026-08-26'
+method: searched
+source: >-
+  https://api.github.com/repos/SeleniumHQ/selenium/releases (read 2026-08-26),
+  https://raw.githubusercontent.com/SeleniumHQ/selenium/trunk/javascript/selenium-webdriver/CHANGES.md,
+  and the dated release announcements at https://www.selenium.dev/blog/
+provider: Selenium
+providerId: selenium
+description: >-
+  Selenium publishes a dated, per-release changelog in three coordinated places: a GitHub release
+  per version, a per-binding CHANGELOG/CHANGES file in the monorepo (java/CHANGELOG, py/CHANGES,
+  rb/CHANGES, dotnet/CHANGELOG, javascript/selenium-webdriver/CHANGES.md — all 200 on 2026-08-26),
+  and a narrative announcement post on the project blog. Entries below are read from the JavaScript
+  CHANGES.md, which is representative of the shared monorepo change set.
+scheme: MAJOR.MINOR.PATCH release train, not semver
+current_version: 4.47.0
+current_released: '2026-08-10'
+urls:
+  releases: https://github.com/SeleniumHQ/selenium/releases
+  blog: https://www.selenium.dev/blog/
+  blog_category: https://www.selenium.dev/categories/releases/
+  per_binding:
+    java: https://github.com/SeleniumHQ/selenium/blob/trunk/java/CHANGELOG
+    python: https://github.com/SeleniumHQ/selenium/blob/trunk/py/CHANGES
+    ruby: https://github.com/SeleniumHQ/selenium/blob/trunk/rb/CHANGES
+    dotnet: https://github.com/SeleniumHQ/selenium/blob/trunk/dotnet/CHANGELOG
+    javascript: https://github.com/SeleniumHQ/selenium/blob/trunk/javascript/selenium-webdriver/CHANGES.md
+entries:
+  - version: 4.47.0
+    date: '2026-08-10'
+    announcement: https://www.selenium.dev/blog/2026/selenium-4-47-released/
+    breaking:
+      - Removed deprecated FTP proxy support (#17846).
+    deprecations:
+      - Deprecated invalid Firefox profile code (#17871).
+    additions:
+      - 'Support for CDP versions v149, v150, v151.'
+      - Added objectOnly / preserveExtras / scalar-primitive signals to the shared BiDi schema (#17784).
+      - Generated BiDi elements now link to their spec definitions (#17781).
+      - Grid honors a client-advertised se:remoteUrl for reachable BiDi/CDP/VNC URLs (#17790).
+    fixes:
+      - Corrected float/enum type fidelity in the shared BiDi schema and validated primitives outbound in Ruby (#17852).
+      - Marked BiDi types extensible per spec (#17853); validate BiDi outbound ref fields against their declared type (#17861).
+      - Fixed GeckoDriver rejecting system-access via capabilities (#17811).
+      - Selenium Manager SBOM and NOTICE are now downloaded and bundled in each package (#17820).
+  - version: 4.46.0
+    date: '2026-07-11'
+    announcement: https://www.selenium.dev/blog/2026/selenium-4-46-released/
+    additions:
+      - 'Support for CDP versions v148, v149, v150.'
+      - Added a binding-neutral BiDi schema with cddl2ts-gated fidelity (#17700).
+      - Added guidance for testing conventions in each language (#16734).
+    fixes:
+      - Updated cddl to 0.21.0 to fix quoted reserved-word parsing in BiDi codegen (#17752).
+  - version: 4.45.0
+    date: '2026-06-16'
+    announcement: https://www.selenium.dev/blog/2026/selenium-4-45-released/
+  - version: 4.44.0
+    date: '2026-05-12'
+    announcement: https://www.selenium.dev/blog/2026/selenium-4-44-released/
+  - version: 4.43.0
+    date: '2026-04-10'
+    announcement: https://www.selenium.dev/blog/2026/selenium-4-43-released/
+  - version: 4.42.0
+    date: '2026-04-09'
+    announcement: https://www.selenium.dev/blog/2026/selenium-4-42-released/
+  - version: 4.41.0
+    date: '2026-02-20'
+    announcement: https://www.selenium.dev/blog/2026/selenium-4-41-released/
+notes:
+  - >-
+    A `nightly` pre-release tag is published continuously alongside the stable train (last seen
+    2026-08-26).
+  - >-
+    The wire contract itself does not move with these numbers. Nothing in 4.41–4.47 changed a W3C
+    WebDriver HTTP endpoint; the churn is in the BiDi schema, the bindings and Grid.
+  - >-
+    Release announcements go back to 2010 on the project blog, which is an unusually long dated
+    change record for any provider in this catalog.

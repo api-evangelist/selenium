@@ -1,0 +1,155 @@
+generated: '2026-08-26'
+method: derived
+source: >-
+  openapi/selenium-*-openapi.yml, graphql/selenium-grid.graphql, and
+  mcp/selenium-mcp.yml (candidate tools). GraphQL SDL harvested verbatim from
+  https://raw.githubusercontent.com/SeleniumHQ/selenium/trunk/java/src/org/openqa/selenium/grid/graphql/selenium-grid-schema.graphqls
+provider: Selenium
+providerId: selenium
+description: >-
+  Crosswalk between Selenium's two machine-readable surfaces. The W3C WebDriver HTTP surface
+  (captured in openapi/) drives a browser; the Selenium Grid GraphQL surface (captured verbatim in
+  graphql/) inspects the Grid's own fleet state. They are NOT projections of one core — they answer
+  different questions against different components, which is exactly the divergence this artifact
+  exists to record. There is no MCP server, so the tool column is the derived candidate list from
+  mcp/selenium-mcp.yml and every binding is confidence low-to-medium by construction.
+surfaces:
+  openapi:
+    files:
+      - openapi/selenium-status-api-openapi.yml
+      - openapi/selenium-session-api-openapi.yml
+      - openapi/selenium-navigation-api-openapi.yml
+      - openapi/selenium-elements-api-openapi.yml
+      - openapi/selenium-script-api-openapi.yml
+      - openapi/selenium-cookies-api-openapi.yml
+    base: http://localhost:4444
+    gated: false
+    note: >-
+      Self-hosted. The base is the consumer's own Grid/driver process, not a Selenium-operated
+      host, so it can be probed only against an instance the caller runs.
+  graphql:
+    endpoint: http://localhost:4444/graphql
+    schema: graphql/selenium-grid.graphql
+    gated: false
+    docs: https://www.selenium.dev/documentation/grid/advanced_features/graphql_support/
+    note: >-
+      Selenium Grid exposes a read-only GraphQL query surface (schema { query: GridQuery }) for
+      fleet introspection. Served by the same self-hosted Grid, so it is reachable only on an
+      instance the caller runs. SDL harvested from the source repo, not from live introspection.
+  mcp:
+    url: null
+    gated: null
+    note: No official MCP server exists — see mcp/selenium-mcp.yml.
+crosswalk:
+  - tool: get_status
+    category: grid
+    rest: [getStatus]
+    graphql: [GridQuery.grid.nodeCount, GridQuery.grid.sessionCount]
+    binding: one-to-one
+    confidence: high
+    note: >-
+      GET /status is the documented Grid readiness endpoint
+      (https://www.selenium.dev/documentation/grid/advanced_features/endpoints/). The GraphQL grid
+      fields answer the same "is there capacity" question with much more detail.
+  - tool: create_session
+    category: session
+    rest: [createSession]
+    binding: one-to-one
+    confidence: high
+  - tool: delete_session
+    category: session
+    rest: [deleteSession]
+    binding: one-to-one
+    confidence: high
+    note: >-
+      Grid documents the same operation as DELETE http://localhost:4444/session/<session-id>,
+      which terminates the session, quits the driver and removes it from the active session map.
+  - tool: navigate_to
+    category: navigation
+    rest: [navigateTo]
+    binding: one-to-one
+    confidence: high
+  - tool: get_current_url
+    category: navigation
+    rest: [getCurrentUrl]
+    binding: one-to-one
+    confidence: high
+  - tool: get_title
+    category: navigation
+    rest: [getTitle]
+    binding: one-to-one
+    confidence: high
+  - tool: navigate_back
+    category: navigation
+    rest: [navigateBack]
+    binding: one-to-one
+    confidence: high
+  - tool: navigate_forward
+    category: navigation
+    rest: [navigateForward]
+    binding: one-to-one
+    confidence: high
+  - tool: find_element
+    category: elements
+    rest: [findElement]
+    binding: one-to-one
+    confidence: high
+  - tool: find_elements
+    category: elements
+    rest: [findElements]
+    binding: one-to-one
+    confidence: high
+  - tool: click_element
+    category: elements
+    rest: [clickElement]
+    binding: one-to-one
+    confidence: high
+  - tool: execute_script_sync
+    category: script
+    rest: [executeScriptSync]
+    binding: one-to-one
+    confidence: high
+  - tool: get_cookies
+    category: cookies
+    rest: [getCookies]
+    binding: one-to-one
+    confidence: high
+mcp_only: []
+graphql_only:
+  - field: GridQuery.grid
+    reason: >-
+      Grid-level fleet state (uri, totalSlots, nodeCount, maxSession, sessionCount, version,
+      sessionQueueSize). No W3C WebDriver HTTP operation reports it; /status returns readiness only.
+  - field: GridQuery.nodesInfo.nodes
+    reason: >-
+      Per-Node inventory — id, uri, status (UP/DRAINING/DOWN), maxSession, slotCount, stereotypes,
+      version, osInfo{arch,name,version}. Grid-management data with no WebDriver equivalent.
+  - field: GridQuery.sessionsInfo
+    reason: >-
+      Live session census across the fleet plus sessionQueueRequests. WebDriver can only address
+      the one session it holds an id for.
+  - field: GridQuery.session
+    reason: >-
+      Look up any session by id and read capabilities, startTime, uri, nodeId, nodeUri,
+      sessionDurationMillis and its slot. Cross-session visibility WebDriver does not have.
+rest_only:
+  - operationId: getStatus
+    reason: >-
+      Also reachable as a plain readiness probe on a bare driver process (chromedriver,
+      geckodriver) that runs no GraphQL surface at all.
+  - note: >-
+      Every browser-driving operation (navigate, find, click, execute script, cookies) is REST-only.
+      The Grid GraphQL schema is read-only fleet introspection — it exposes no mutation type and
+      cannot drive a browser.
+coverage:
+  rest_operations: 13
+  graphql_root_fields: 4
+  mcp_tools: 13
+  mapped: 13
+  mcp_only: 0
+  graphql_only: 4
+  rest_only: 0
+  note: >-
+    mcp_tools are derived candidates, not tools any server publishes. The honest headline is that
+    Selenium's two real surfaces overlap on exactly one concept — Grid readiness — and diverge
+    completely everywhere else.

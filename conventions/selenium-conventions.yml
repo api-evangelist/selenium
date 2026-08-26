@@ -1,0 +1,209 @@
+generated: '2026-08-26'
+method: searched
+source: >-
+  https://www.w3.org/TR/webdriver2/, https://www.selenium.dev/documentation/webdriver/,
+  https://www.selenium.dev/documentation/webdriver/waits/,
+  https://www.selenium.dev/documentation/grid/configuration/cli_options/,
+  https://www.selenium.dev/documentation/grid/advanced_features/endpoints/,
+  https://www.selenium.dev/documentation/grid/advanced_features/observability/,
+  https://www.selenium.dev/llms.txt, and openapi/_original/selenium-openapi.yml — 2026-08-26
+provider: Selenium
+providerId: selenium
+description: >-
+  Cross-cutting runtime semantics for the Selenium WebDriver wire protocol. Most of these are fixed
+  by the W3C REC rather than chosen by Selenium, which is what makes them unusually stable: they are
+  identical across every conformant remote end.
+auth:
+  style: none by default; HTTP Basic or a shared registration secret on Selenium Grid
+  detail: See authentication/selenium-authentication.yml
+base_url:
+  documented_default: http://localhost:4444
+  note: >-
+    Self-hosted. "In the Standalone mode, the Grid URL is the Standalone server address. In the
+    Hub-Node mode, the Grid URL is the Hub server address. In the fully distributed mode, the Grid
+    URL is the Router server address. Default URL for all the above modes is http://localhost:4444."
+    Bare drivers listen elsewhere — chromedriver on 9515, geckodriver on 4444.
+  source: https://www.selenium.dev/documentation/grid/advanced_features/endpoints/
+session_model:
+  style: server-side session, addressed by opaque sessionId in the path
+  create: POST /session with a W3C capabilities request (alwaysMatch / firstMatch)
+  destroy: DELETE /session/{sessionId}
+  note: >-
+    Every operation except getStatus and createSession is scoped to a sessionId. A session holds a
+    live browser process, so it is a resource an agent MUST release — see reversibility below.
+  element_references: >-
+    findElement/findElements return opaque element reference IDs, not selectors. A reference is only
+    valid while the element remains attached to the DOM; using one after a re-render returns
+    `stale element reference`. Re-locate rather than caching.
+idempotency:
+  header: null
+  supported: false
+  by_verb:
+    idempotent:
+      - getStatus
+      - getCurrentUrl
+      - getTitle
+      - getCookies
+      - deleteSession
+    not_idempotent:
+      - createSession
+      - navigateTo
+      - navigateBack
+      - navigateForward
+      - clickElement
+      - executeScriptSync
+    conditionally:
+      - operationId: findElement
+        note: >-
+          Reads, but the result is time-dependent — the same call a second later can return a
+          different element reference or `no such element` as the page changes.
+  detail: >-
+    There is no Idempotency-Key header and no request-deduplication mechanism. Retrying a failed
+    createSession leaks a browser process if the first attempt actually succeeded; retrying a
+    clickElement double-clicks. An agent must treat every POST here as at-most-once and reconcile by
+    reading state (getCurrentUrl, getTitle, findElement) rather than by re-sending.
+  guidance: >-
+    Selenium's own advice for the underlying flakiness is explicit waits: "Prefer explicit waits
+    (WebDriverWait and expected conditions) over fixed sleeps, and avoid mixing implicit and explicit
+    waits." Waiting is the substitute for retrying in this protocol.
+  guidance_source: https://www.selenium.dev/llms.txt
+pagination:
+  style: none
+  detail: >-
+    No paging anywhere. findElements returns the whole match set, getCookies returns every cookie for
+    the browsing context, and the Grid GraphQL nodesInfo/sessionsInfo fields return the full fleet.
+    Collections are bounded by the browser session, not by a cursor.
+field_expansion:
+  rest: none
+  graphql: >-
+    The Grid GraphQL surface IS the field-selection mechanism — "GraphQL allows you to fetch only the
+    data that you want" — with nested subfield selection required down to scalars. There is no REST
+    equivalent.
+metadata:
+  capabilities: >-
+    Arbitrary vendor and user metadata rides on the capabilities object at session creation, using
+    prefixed keys (se:*, goog:*, moz:*). This is the extension point the standard defines; Grid
+    reads se:* keys such as se:remoteUrl.
+  note: Once the session exists there is no operation to attach or read free-form metadata.
+request_id_tracing:
+  header: null
+  supported: partial
+  detail: >-
+    No request-id response header. Selenium Grid 4 is instead instrumented for OpenTelemetry-style
+    distributed tracing across its distributed components — traces, spans, span attributes and timed
+    events — plus structured event logging. Correlation is available to the operator of the Grid, not
+    to the caller through a response header.
+  source: https://www.selenium.dev/documentation/grid/advanced_features/observability/
+versioning:
+  in_url: false
+  in_header: false
+  detail: >-
+    The wire protocol is versioned by the W3C (WebDriver Level 2, WebDriver BiDi), not by a path
+    segment or a version header. Selenium's own 4.47.0 versions the client bindings and Grid, not the
+    contract. See lifecycle/selenium-lifecycle.yml.
+error_envelope:
+  format: w3c-webdriver
+  shape: '{"value": {"error": "<code>", "message": "...", "stacktrace": "...", "data": {}}}'
+  match_on: value.error
+  detail: See errors/selenium-problem-types.yml for the full 28-code registry.
+rate_limit_signaling:
+  headers: none
+  status_on_exhaustion: null
+  detail: >-
+    No rate limiting and no rate-limit headers. Capacity is a fixed pool, not a quota: a Grid has
+    --max-sessions slots and a queue, and a session request that waits longer than
+    --session-request-timeout (default 300s) times out. See rate-limits/selenium-rate-limits.yml.
+timeouts:
+  session_timeout:
+    flag: --session-timeout
+    default_seconds: 300
+    detail: The Node kills a session with no activity for this many seconds, releasing the slot.
+  session_request_timeout:
+    flag: --session-request-timeout
+    default_seconds: 300
+    detail: A queued new-session request that waits longer than this times out.
+  source: https://www.selenium.dev/documentation/grid/configuration/cli_options/
+dry_run_mode:
+  supported: false
+  grade: na
+  detail: >-
+    No dry-run, no simulate flag, no preview. There is a real-world analogue the docs do encourage —
+    drive a disposable browser (a fresh session, a container from selenium/standalone-*) against a
+    staging target — but that is an isolation strategy the caller arranges, not an API mode.
+reversibility:
+  grade: documented
+  detail: >-
+    Reversal operations exist for two of the six write operations, and the docs state no time window
+    for either, so this grades `documented` rather than `verified`. The honest and important finding
+    is the other half: the two operations with real-world consequence — clickElement and
+    executeScriptSync — have NO reversal path at all, because their effects land in the application
+    under test, not in Selenium.
+  write_surfaces:
+    - operation: createSession
+      operationId: createSession
+      reversal: deleteSession
+      reversal_operationId: deleteSession
+      window: >-
+        No stated deadline. In practice a Grid Node kills an idle session after --session-timeout
+        seconds (default 300), which ends the session but is a timeout, not a documented reversal
+        window.
+      grade: documented
+      note: >-
+        Deleting the session terminates it, quits the driver and removes it from the active sessions
+        map. Any request reusing the session id or the driver instance then errors. This is a true
+        teardown — it is idempotent in effect and is the operation an agent must always run in a
+        finally block, because a leaked session holds a browser process and a Grid slot.
+      source: https://www.selenium.dev/documentation/grid/advanced_features/endpoints/
+    - operation: navigateTo
+      operationId: navigateTo
+      reversal: navigateBack
+      reversal_operationId: navigateBack
+      window: >-
+        No time window. Reversal is bounded by the browsing context's session history, not by a
+        clock: navigateBack undoes the navigation only while the history entry exists, and the entry
+        is lost when the context is closed or replaced.
+      grade: documented
+      note: navigateForward re-applies it. Neither operation touches state in the application under test.
+    - operation: navigateBack
+      operationId: navigateBack
+      reversal: navigateForward
+      reversal_operationId: navigateForward
+      window: Same session-history bound as above; no stated time window.
+      grade: documented
+    - operation: clickElement
+      operationId: clickElement
+      reversal: null
+      window: null
+      grade: none
+      note: >-
+        NOT REVERSIBLE. A click is delivered to the application under test. If it submits an order,
+        deletes a record or sends a message, Selenium has no undo — recovery is whatever the target
+        application offers, and Selenium cannot know what that is. Treat every click against a
+        production system as irreversible.
+    - operation: executeScriptSync
+      operationId: executeScriptSync
+      reversal: null
+      window: null
+      grade: none
+      note: >-
+        NOT REVERSIBLE and the highest-consequence operation in the surface. It executes
+        caller-supplied JavaScript in the page context with the page's own privileges — it can issue
+        authenticated requests as the logged-in user. There is no rollback.
+  read_only_operations:
+    - getStatus
+    - getCurrentUrl
+    - getTitle
+    - getCookies
+    - findElement
+    - findElements
+  agent_guidance: >-
+    Before acting: assume irreversible. The safe pattern is to bound the blast radius rather than to
+    plan an undo — run against a disposable browser session, point it at a non-production target, and
+    always deleteSession when finished. Reversibility here is a property of the site being automated,
+    not of the API.
+cross_references:
+  errors: errors/selenium-problem-types.yml
+  lifecycle: lifecycle/selenium-lifecycle.yml
+  authentication: authentication/selenium-authentication.yml
+  rate_limits: rate-limits/selenium-rate-limits.yml
+  agentic_access: agentic-access/selenium-agentic-access.yml
