@@ -157,6 +157,8 @@ apis:
   - type: Overlay
     url: overlays/selenium-status-api-overlay.yaml
 common:
+  - type: Website
+    url: https://www.selenium.dev/
   - type: AgenticAccess
     url: agentic-access/selenium-agentic-access.yml
   - type: DomainSecurity
