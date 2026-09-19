@@ -49,6 +49,11 @@ apis:
   baseURL: http://localhost:4444
   tags:
   - Automation
+  - Browser
+  - Testing
+  - WebDriver
+  tags_raw:
+  - Automation
   - Browsers
   - Testing
   - WebDriver
@@ -138,6 +143,8 @@ apis:
   humanURL: https://www.selenium.dev/documentation/webdriver/
   baseURL: http://localhost:4444
   tags:
+  - Sessions
+  tags_raw:
   - Session
   properties:
   - type: OpenAPI
@@ -250,7 +257,7 @@ maintainers:
     url: https://www.selenium.dev/project/
 tags:
   - Automation
-  - Browsers
+  - Browser
   - End-to-End Testing
   - Quality Assurance
   - Testing
