@@ -1,0 +1,29 @@
+# Front Door AI Index — selenium — 2026-09-17
+# AI vocabulary counted on the provider's root page. Generated; do not edit.
+# `score` is null unless ownership is `own` — see front_door_ai.py.
+front_door_ai:
+  slug: selenium
+  lexicon_version: '1.0'
+  probed_at: '2026-09-17'
+  host: www.selenium.dev
+  final_host: www.selenium.dev
+  ownership: own
+  owner: selenium
+  shares_host_with: null
+  inherited_from: null
+  verdict: scored
+  score: 3
+  host_score: 3
+  density: 6.01
+  words: 499
+  tiers:
+    agentic: 2
+    core: 1
+    model: 0
+  ambiguous: 5
+  top_terms:
+    automation: 4
+    AI agent: 1
+    AI: 1
+    agent: 1
+    llms.txt: 1

@@ -1,12 +1,7 @@
 {
   "provider": "selenium",
   "sources": [
-    "selenium-cookies-api-openapi.yml",
-    "selenium-elements-api-openapi.yml",
-    "selenium-navigation-api-openapi.yml",
-    "selenium-script-api-openapi.yml",
-    "selenium-session-api-openapi.yml",
-    "selenium-status-api-openapi.yml"
+    "_original/selenium-openapi.yml"
   ],
   "outputs": [
     "selenium-cookies-api-openapi.yml",
@@ -19,6 +14,17 @@
   "archived": [],
   "errors": [],
   "warnings": [],
-  "notes": [],
-  "skipped": []
+  "notes": [
+    "sourced from openapi/_original/ (1 archived document(s)); previously refined output at the top level was skipped rather than re-split",
+    "selenium-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "apis.yml register: already-registered"
+  ],
+  "skipped": [
+    "selenium-cookies-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "selenium-elements-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "selenium-navigation-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "selenium-script-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "selenium-session-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "selenium-status-api-openapi.yml: previously refined output, superseded by openapi/_original/"
+  ]
 }
