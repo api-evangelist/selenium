@@ -82,13 +82,6 @@ components:
         value:
           type: string
   parameters:
-    ElementId:
-      in: path
-      name: elementId
-      required: true
-      schema:
-        type: string
-      description: WebDriver element reference ID
     SessionId:
       in: path
       name: sessionId
@@ -96,3 +89,10 @@ components:
       schema:
         type: string
       description: WebDriver session ID
+    ElementId:
+      in: path
+      name: elementId
+      required: true
+      schema:
+        type: string
+      description: WebDriver element reference ID
