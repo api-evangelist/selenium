@@ -64,6 +64,21 @@ paths:
         '200':
           description: OK
 components:
+  parameters:
+    SessionId:
+      in: path
+      name: sessionId
+      required: true
+      schema:
+        type: string
+      description: WebDriver session ID
+    ElementId:
+      in: path
+      name: elementId
+      required: true
+      schema:
+        type: string
+      description: WebDriver element reference ID
   schemas:
     Locator:
       type: object
@@ -81,18 +96,3 @@ components:
           - xpath
         value:
           type: string
-  parameters:
-    SessionId:
-      in: path
-      name: sessionId
-      required: true
-      schema:
-        type: string
-      description: WebDriver session ID
-    ElementId:
-      in: path
-      name: elementId
-      required: true
-      schema:
-        type: string
-      description: WebDriver element reference ID
