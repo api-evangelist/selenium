@@ -164,6 +164,8 @@ apis:
   - type: Overlay
     url: overlays/selenium-status-api-overlay.yaml
 common:
+  - type: FinOps
+    url: finops/selenium-finops.yml
   - type: Website
     url: https://www.selenium.dev/
   - type: AgenticAccess
