@@ -64,5 +64,5 @@
     quality:
     - unknown
     builder: 'community (Meltano Hub variant maintainers: anelendata)'
-  status: pending-partner-spec
+  status: not-a-workflow
   arazzo: null
