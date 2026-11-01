@@ -1,4 +1,4 @@
-# Selenium (selenium)
+# Selenium
 
 <!-- API-EVANGELIST-PROVENANCE:BEGIN -->
 > ### About this repository
@@ -64,83 +64,156 @@
 > Full detail: **[Where this data comes from](https://apievangelist.com/about/where-our-data-comes-from)**
 <!-- API-EVANGELIST-PROVENANCE:END -->
 
-Selenium is a suite of tools for automating web browsers across many platforms. It provides a way to control browsers programmatically for testing web applications and automating browser-based tasks.
+Selenium is the open-source browser automation project behind the W3C WebDriver and WebDriver BiDi standards. It drives real browsers through a vendor-neutral, standardised HTTP wire protocol that the browser vendors implement themselves, with official language bindings for Java, Python, C#, Ruby and JavaScript, all released in lockstep. The suite covers WebDriver (the browser-control protocol), Selenium Grid (distributed, parallel execution across machines and platforms), Selenium Manager (a Rust CLI that resolves and downloads matching browser drivers automatically) and Selenium IDE (record and playback). Selenium is self-hosted software rather than a service: there is no vendor-operated API host, no account and no pricing — the remote end runs on infrastructure the consumer owns, at a documented default of http://localhost:4444, under Apache-2.0 and the stewardship of the Software Freedom Conservancy.
 
-**APIs.json:** [https://www.selenium.dev/](https://www.selenium.dev/)
+**Areas:** Automation · Browser · End-to-End Testing · Quality Assurance · Testing · WebDriver
 
-## Tags
+## Selenium on APIs.io
 
-- Automation
-- Browsers
-- End-To-End Testing
-- Quality Assurance
-- Testing
-- WebDriver
+Everything profiled for Selenium is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/selenium/](https://apis.io/providers/selenium/)** — or go straight to one of the APIs or properties below.
 
-## Timestamps
+### APIs (8)
 
-- **Created:** 2024-01-01
-- **Modified:** 2024-01-01
+- [Selenium WebDriver](https://apis.io/apis/selenium/selenium-webdriver/) — WebDriver is a browser automation framework that accepts commands and sends them to a browser. It is implemented through a browser-specific driver that…
+- [Selenium Grid](https://apis.io/apis/selenium/selenium-grid/) — Selenium Grid allows you to run test cases in different machines across different platforms. It enables the execution of test scripts on remote machines by…
+- [Selenium Cookies API](https://apis.io/apis/selenium/selenium-cookies-api/) — Cookie management
+- [Selenium Elements API](https://apis.io/apis/selenium/selenium-elements-api/) — Element discovery and interaction
+- [Selenium Navigation API](https://apis.io/apis/selenium/selenium-navigation-api/) — Page navigation and metadata
+- [Selenium Script API](https://apis.io/apis/selenium/selenium-script-api/) — Execute JavaScript in the page context
+- [Selenium Session API](https://apis.io/apis/selenium/selenium-session-api/) — Session lifecycle
+- [Selenium Status API](https://apis.io/apis/selenium/selenium-status-api/) — Remote end readiness
 
-## APIs
+### Published properties
 
-### Selenium WebDriver
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
 
-WebDriver is a browser automation framework that accepts commands and sends them to a browser. It is implemented through a browser-specific driver that sends commands to a browser and retrieves results.
+#### AsyncAPI (1)
 
-- **Human URL:** [https://www.selenium.dev/documentation/webdriver/](https://www.selenium.dev/documentation/webdriver/)
-- **Base URL:** `https://www.selenium.dev`
+Event-driven and webhook contracts.
 
-#### Tags
+- [Selenium Bidi Events](https://apis.io/asyncapis/selenium/selenium-bidi-events/)
 
-- Automation
-- Browsers
-- Testing
-- WebDriver
+#### MCP servers (1)
 
-#### Properties
+Model Context Protocol servers that expose the API to agents.
 
-- [Documentation](https://www.selenium.dev/documentation/webdriver/)
-- [A P I  Documentation](https://www.selenium.dev/selenium/docs/api/java/)
-- [Getting Started](https://www.selenium.dev/documentation/webdriver/getting_started/)
-- [Postman Collection](collections/selenium.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/selenium.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
+- [Selenium WebDriver (candidate MCP surface)](https://apis.io/servers/selenium/selenium-webdriver-candidate-mcp-surface/)
 
-### Selenium Grid
+#### Agentic access (1)
 
-Selenium Grid allows you to run test cases in different machines across different platforms. It enables the execution of test scripts on remote machines by routing commands to remote web browser instances.
+Which operations an agent can call, which act, and which need a human in the loop.
 
-- **Human URL:** [https://www.selenium.dev/documentation/grid/](https://www.selenium.dev/documentation/grid/)
-- **Base URL:** `https://www.selenium.dev`
+- [Selenium Agentic Access](https://apis.io/agentic-access/selenium/selenium-agentic-access/)
 
-#### Tags
+#### Collections (7)
 
-- Distributed
-- Grid
-- Parallel Testing
-- Testing
+Postman and Open Collection request collections.
 
-#### Properties
+- [Selenium WebDriver (W3C Wire Protocol)](https://apis.io/collections/selenium/open-selenium/)
+- [Selenium WebDriver (W3C Wire Protocol) Cookies API](https://apis.io/collections/selenium/open-selenium-cookies-api/)
+- [Selenium WebDriver (W3C Wire Protocol) Cookies Elements API](https://apis.io/collections/selenium/open-selenium-elements-api/)
+- [Selenium WebDriver (W3C Wire Protocol) Cookies Navigation API](https://apis.io/collections/selenium/open-selenium-navigation-api/)
+- [Selenium WebDriver (W3C Wire Protocol) Cookies Script API](https://apis.io/collections/selenium/open-selenium-script-api/)
+- [Selenium WebDriver (W3C Wire Protocol) Cookies Session API](https://apis.io/collections/selenium/open-selenium-session-api/)
+- [Selenium WebDriver (W3C Wire Protocol) Cookies Status API](https://apis.io/collections/selenium/open-selenium-status-api/)
 
-- [Documentation](https://www.selenium.dev/documentation/grid/)
-- [Configuration](https://www.selenium.dev/documentation/grid/configuration/)
-- [Getting Started](https://www.selenium.dev/documentation/grid/getting_started/)
-- [Postman Collection](collections/selenium.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/selenium.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
+#### Overlays (6)
 
-## Common Properties
+OpenAPI overlays, including conversational phrasing for each operation.
 
-- [GitHub Organization](https://github.com/SeleniumHQ)
-- [Blog](https://www.selenium.dev/blog/)
-- [Downloads](https://www.selenium.dev/downloads/)
+- [Selenium Cookies Api Overlay](https://apis.io/overlays/selenium/selenium-cookies-api-overlay/)
+- [Selenium Elements Api Overlay](https://apis.io/overlays/selenium/selenium-elements-api-overlay/)
+- [Selenium Navigation Api Overlay](https://apis.io/overlays/selenium/selenium-navigation-api-overlay/)
+- [Selenium Script Api Overlay](https://apis.io/overlays/selenium/selenium-script-api-overlay/)
+- [Selenium Session Api Overlay](https://apis.io/overlays/selenium/selenium-session-api-overlay/)
+- [Selenium Status Api Overlay](https://apis.io/overlays/selenium/selenium-status-api-overlay/)
+
+#### Security (2)
+
+Authentication, trust centre, and vulnerability disclosure.
+
+- [Selenium Authentication](https://apis.io/security/selenium/selenium-authentication/)
+- [Selenium Domain Security](https://apis.io/security/selenium/selenium-domain-security/)
+
+#### Plans and pricing (1)
+
+Published plans, tiers and prices.
+
+- [Selenium Plans Pricing](https://apis.io/plans/selenium/selenium-plans-pricing/)
+
+#### Rate limits (1)
+
+Published request limits.
+
+- [Selenium Rate Limits](https://apis.io/rate-limits/selenium/selenium-rate-limits/)
+
+#### FinOps (1)
+
+What the API costs to run, by operation.
+
+- [Selenium Finops](https://apis.io/finops/selenium/selenium-finops/)
+
+## Where to find this API
+
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
+
+- [Website](https://www.selenium.dev/)
+- [Documentation](https://www.selenium.dev/documentation/)
+- [Getting started](https://www.selenium.dev/documentation/webdriver/getting_started/)
+- [API reference](https://www.selenium.dev/selenium/docs/api/java/)
 - [Support](https://www.selenium.dev/support/)
-- [Ecosystem](https://www.selenium.dev/ecosystem/)
-- [Sponsor](https://www.selenium.dev/sponsors/)
-- [History](https://www.selenium.dev/history/)
-- [Integrations](https://www.selenium.dev/ecosystem/)
+- [Blog](https://www.selenium.dev/blog/)
+- [GitHub](https://github.com/SeleniumHQ)
 
-## Maintainers
+## API Evangelist rating
 
-**FN:** Selenium Project
-**Email:** selenium-developers@googlegroups.com
-**URL:** https://www.selenium.dev/project/
+**Kin Score 38.1** — thin · rubric 0.24.0 · scored 2026-10-17
+
+| Facet | Score |
+|---|---|
+| Discoverability | 71.4 |
+| Contract quality | 44.7 |
+| Contract governance | 18.2 |
+| Operational transparency | 26.3 |
+| Developer ergonomics | 73.2 |
+| Access clarity | 0.0 |
+
+**Agent readiness 27.9** — agent-aware
+
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | yes |
+| Agentic Access | derived (partial credit) |
+| Reversibility Documented | — |
+| MCP Server | — |
+| Auth Clarity | bearer (partial credit) |
+| Idempotency | — |
+| Error Semantics | documented (partial credit) |
+| OpenAPI Examples | — |
+| Rate Limit Signal | documented (partial credit) |
+| Event Surface Described | yes |
+| Agent Skills | derived (partial credit) |
+| Well Known Catalog | — |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | — |
+| Delegated Identity | — |
+| Protected Resource Metadata | — |
+| Dynamic Client Registration | — |
+| Agentic Commerce | — |
+
+**Regulatory alignment 16.7** — Horizontal (data, software, accessibility, platform)
+
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/selenium/](https://apis.io/providers/selenium/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for Selenium: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/selenium/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
